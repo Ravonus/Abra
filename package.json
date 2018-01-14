@@ -1,0 +1,24 @@
+{
+  "name": "jet-pack-jumper",
+  "version": "0.0.1",
+  "description": "Phaser/Node Game",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "hbs": "^4.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ravonus/Jet-Pack-Jumper.git"
+  },
+  "author": "Chad Koslovsky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ravonus/Jet-Pack-Jumper/issues"
+  },
+  "homepage": "https://github.com/Ravonus/Jet-Pack-Jumper#readme"
+}
