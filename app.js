@@ -108,7 +108,7 @@ const findAndReplace = (object, value, replacevalue, mathEquations) => {
           // console.log(firstValue)
         
           
-            replacevalue =  Parser.evaluate(`${mathEquations[0]}${mathEquations[1]}`);
+            replacevalue =  Parser.evaluate(`${mathEquations[0]}`);
             math[value] = new Object({lastValue:replacevalue});
        //     console.log(value)
            
