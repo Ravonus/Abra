@@ -1,5 +1,8 @@
 var PreloadState = {
   preload: function () {
+
+
+    
     //Get json object strings from HTML - Setup by Abra
     var listFiles = document.getElementById("listFiles").getAttribute('value');
     var phaserConfig = document.getElementById("phaserConfig").getAttribute('value');
@@ -13,7 +16,7 @@ var PreloadState = {
     //built in Abra asset load function
     
     eval("(" + this.game.phaserConfig.assets.abraCommands.abraLoad + ")")(regEx, regEx2); 
-
+   
 
     //Stop the follow keys from propagating up to the browser.
   
