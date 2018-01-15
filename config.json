@@ -1,0 +1,15 @@
+{
+  "abraConfig": {
+    "phaserSpriteTypes": ["png","jpg","jpeg"]
+  },
+  "spritesheet": {
+    "testmonster":{
+      "height": 125,
+      "width": 165
+    }
+  },
+    "testmonster2":{
+      "height": 125,
+      "width": 165
+    }
+}
