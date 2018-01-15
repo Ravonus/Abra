@@ -1,18 +1,74 @@
 const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
-const port = process.env.PORT || 1337;
 const app = express();
-let filelist = [];
 const dirPath = __dirname
-let configVariables = new Object();
-configVariables.variables = new Object();
-let phaserConfig = new Object();
-
+let filelist = [];
 let lastFile = [];
 let configArr = [];
-let x, y, z;
-let phaserPath = 'assets/'
+let configVariables = new Object();
+let phaserConfig = new Object();
+let phaserPath, port, x;
+configVariables.variables = new Object();
+
+// Look at the config file within main Abra directory. You can put values you don't want people to see here.
+//Keep in mind if its a public value - Abra still has to push it to the DIV so phaser has access. Abra will not push anything within abraConfig to phaser. This is default abra configs.
+let configString = fs.readFileSync(`${dirPath}/config.json`);
+let configJSON = JSON.parse(configString);
+
+if (configJSON.abraConfig) {
+  //DO stuff with abra configs
+  port = process.env.PORT || configJSON.abraConfig.phaserPort;
+  phaserPath = 'assets/' || configJSON.abraConfig.phaserPath;
+
+  //now delete object from configJSON. We don't want phaser to see theses.
+  delete configJSON['abraConfig'];
+}
+
+if (configJSON.variables) {
+
+  //   configVariables.variables = {}
+  for (i = 0; i < Object.keys(configJSON.variables).length; i++) {
+    let key = Object.keys(configJSON.variables)[i];
+    configVariables.variables[key] = configJSON.variables[key];
+
+  }
+  delete configJSON['variables'];
+  configVariablesArr = Array.from(configVariables.variables);
+  configArr = configArray(configVariables.variables);
+}
+if (configJSON.spritesheet) {
+  if (!phaserConfig.spritesheet) {
+    phaserConfig['spritesheet'] = new Object(configJSON.spritesheet);
+    //now delete object from configJSON. We don't want it to write into other.
+    delete configJSON['spritesheet'];
+
+  } else {
+    for (key in Object.keys(configJSON.spritesheet)) {
+      objectName = Object.keys(configJSON.spritesheet)[key];
+      phaserConfig.spritesheet[objectName] = new Object(configJSON.spritesheet[objectName]);
+      //now delete object from configJSON. We don't want it to write into other.
+
+    }
+    delete configJSON['spritesheet'];
+  }
+
+}
+
+let objName = 'abraMain'
+if (!phaserConfig[objName]) {
+  phaserConfig[objName] = new Object();
+}
+for (i = 0; i < Object.keys(configJSON).length; i++) {
+  let first = Object.keys(configJSON)[i];
+  let newObj = configJSON[first];
+  if (!phaserConfig[objName][first]) {
+    phaserConfig[objName][first] = new Object();
+  }
+  let second = Object.keys(newObj)[i]
+  phaserConfig[objName][first] = newObj;
+}
+
 
 //function to replace variable keys with actual value.
 const findAndReplace = (object, value, replacevalue) => {
@@ -50,7 +106,6 @@ const findAndReplace = (object, value, replacevalue) => {
             }
           }
         }
-
       }
       phaserConfig = object;
     }
@@ -73,34 +128,33 @@ const listAllFiles = function (dir, filelist) {
     else {
       let regexp = /\$?[hw]\d+[hw]\d+|@?[xy]\d+|[xy]\d+/gi;
       let match = file.match(regexp);
-      if(match) {
-        match.forEach( (reg) => {
-          if(reg.toLowerCase().match('h') && reg.toLowerCase().match('w')){
+      if (match) {
+        match.forEach((reg) => {
+          if (reg.toLowerCase().match('h') && reg.toLowerCase().match('w')) {
             let find = reg.toLowerCase().match('h').input;
-    //        console.log(find.match(/[h]\d+/g)[0]);
-    //        console.log(find.match(/[w]\d+/g)[0]);
-            
+            //        console.log(find.match(/[h]\d+/g)[0]);
+            //        console.log(find.match(/[w]\d+/g)[0]);
+
           }
-          if(reg.toLowerCase().match('y')){
-            
-           // console.log(reg.toLowerCase().match(/[y]\d+/g)[0]);
+          if (reg.toLowerCase().match('y')) {
+
+            // console.log(reg.toLowerCase().match(/[y]\d+/g)[0]);
           }
-          if(reg.toLowerCase().match('x')){
-          //  console.log(reg.toLowerCase().match(/[x]\d+/g)[0]);
+          if (reg.toLowerCase().match('x')) {
+            //  console.log(reg.toLowerCase().match(/[x]\d+/g)[0]);
           }
-        }) 
-     
-        }
-      
+        });
+      }
+
       if (file.toLowerCase() === 'config.json') {
         // console.log(newDir + file);
         let configString = fs.readFileSync(dir + file);
         let configJSON = JSON.parse(configString);
 
         if (configJSON.abraVariables) {
-          
+
           delete configJSON['abraVariables'];
-        
+
         }
 
         if (configJSON.variables) {
@@ -129,26 +183,25 @@ const listAllFiles = function (dir, filelist) {
           phaserConfig[objName][first] = newObj;
         }
 
-        if(configJSON.spritesheet){
-          if(!phaserConfig.spritesheet){
+        if (configJSON.spritesheet) {
+          if (!phaserConfig.spritesheet) {
             phaserConfig['spritesheet'] = new Object(configJSON.spritesheet);
             delete configJSON['spritesheet'];
-            
+
           } else {
-            for(key in Object.keys(configJSON.spritesheet)){ 
+            for (key in Object.keys(configJSON.spritesheet)) {
               objectName = Object.keys(configJSON.spritesheet)[key];
-              console.log(objectName)
-              phaserConfig.spritesheet[objectName]= new Object(configJSON.spritesheet[objectName]);
-                        //now delete object from configJSON. We don't want it to write into other.
-                        delete configJSON['spritesheet'];
-      
+              phaserConfig.spritesheet[objectName] = new Object(configJSON.spritesheet[objectName]);
+              //now delete object from configJSON. We don't want it to write into other.
+
+
             }
+            delete configJSON['spritesheet'];
           }
         }
         return;
       }
       if (file.toLowerCase() === 'spritesheet.json') {
-        //  console.log(phaserConfig);
         let configString = fs.readFileSync(dir + file);
         let configJSON = JSON.parse(configString);
 
@@ -159,27 +212,20 @@ const listAllFiles = function (dir, filelist) {
             key = Object.keys(configJSON)[obj];
             phaserConfig['spritesheet'][key] = configJSON[key]
           }
-
-          
         }
-        //  console.log(phaserConfig.spritesheet['p1-running2'].width);
         return;
       }
       if (file.toLowerCase().includes('.xml')) {
-       
+
         if (!phaserConfig['bitmap']) {
           phaserConfig['bitmap'] = new Array(file);
-        }else {
+        } else {
           phaserConfig['bitmap'].push(file);
         }
-
-
       }
       if (file.toLowerCase().includes('.bak')) {
-       
+
         return
-
-
       }
 
       dirTrim = dir.slice(0, -1)
@@ -237,76 +283,7 @@ let configArray = ((obj) => {
 
 listAllFiles(`${dirPath}/public/${phaserPath}`, filelist)
 
-
-
-
-
-  // Look at the config file within main Abra directory. You can put values you don't want people to see here.
-  //Keep in mind if its a public value - Abra still has to push it to the DIV so phaser has access. Abra will not push anything within abraConfig to phaser. This is default abra configs.
-  let configString = fs.readFileSync(`${dirPath}/config.json`);
-  let configJSON = JSON.parse(configString);
-
-  if (configJSON.abraConfig) {
-    //DO shit with abra configs
-
-    //now delete object from configJSON. We don't want phaser to see theses.
-    delete configJSON['abraConfig'];
-  }
-
-  if (configJSON.variables) {
-
-    //   configVariables.variables = {}
-    for (i = 0; i < Object.keys(configJSON.variables).length; i++) {
-      let key = Object.keys(configJSON.variables)[i];
-      configVariables.variables[key] = configJSON.variables[key];
-
-    }
-    delete configJSON['variables'];
-    configVariablesArr = Array.from(configVariables.variables);
-    configArr = configArray(configVariables.variables);
-  }
-  if(configJSON.spritesheet){
-    if(!phaserConfig.spritesheet){
-      phaserConfig['spritesheet'] = new Object(configJSON.spritesheet);
-          //now delete object from configJSON. We don't want it to write into other.
-        delete configJSON['spritesheet'];
-      
-    } else {
-      for(key in Object.keys(configJSON.spritesheet)){ 
-        objectName = Object.keys(configJSON.spritesheet)[key];
-        console.log(objectName)
-        phaserConfig.spritesheet[objectName]= new Object(configJSON.spritesheet[objectName]);
-                  //now delete object from configJSON. We don't want it to write into other.
-                  delete configJSON['spritesheet'];
-
-      }
-    }
-    
-  } 
-  
-
- 
-  let objName = 'abraMain'
-  if (!phaserConfig[objName]) {
-    phaserConfig[objName] = new Object();
-  }
-  for (i = 0; i < Object.keys(configJSON).length; i++) {
-    let first = Object.keys(configJSON)[i];
-    let newObj = configJSON[first];
-    if (!phaserConfig[objName][first]) {
-      phaserConfig[objName][first] = new Object();
-    }
-    let second = Object.keys(newObj)[i]
-    phaserConfig[objName][first] = newObj;
-  }
-
-
-
-
-
-  delete phaserConfig['assets'].spritesheet;
-
-console.log(phaserConfig);
+delete phaserConfig['assets'].spritesheet;
 
 configArr.forEach((variable) => {
   if (x == undefined) {
@@ -354,5 +331,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server fucking started on port:${port}.`);
+  console.log(`Server started on port:${port}.`);
 });

@@ -1,23 +1,37 @@
+var phaserConfig = document.getElementById(\"phaserConfig\").getAttribute('value'); 
+var listFiles = document.getElementById(\"listFiles\").getAttribute('value'); 
+this.game.phaserConfig = JSON.parse(phaserConfig); 
+var regEx = /^.*[\\\/]/; 
+var regEx2 = /([^\\\/]*)\\\/*$/;
+
 game.assetList = JSON.parse(listFiles);
+
 game.assetList.forEach(function (file) {
+  
   if (Array.isArray(file)) {
+    console.log(game.phaserConfig);
     var filename = file[0].replace(regEx, '');
     var name = filename.substr(0, filename.lastIndexOf('.'));
     var lastFile;
     var newFileArray = [];
     var pathArray = file[0].split('/');
+    if(dirAdd) {
     var lastDir = pathArray[pathArray.length - 2] + '-';
+    } else {
+      var lastDir = '';
+    }
     file.forEach(function (newFile) {
       newFileArray.push(newFile);
       lastFile = newFile;
     });
     if (filename == name + '.mp3' || filename == name + '.ogg' || filename == name + '.wav') {
       game.load.audio(lastDir + name, newFileArray);
-
-    } else if (game.phaserConfig['bitmap'].join().includes(name) && !this.game.phaserConfig.spritesheet[name]) {
+      
+    } else if (game.phaserConfig['bitmap'] && game.phaserConfig['bitmap'].join().includes(name) && !this.game.phaserConfig.spritesheet[name]) {
+     
       game.load.bitmapFont(lastDir  + name, file[1], file[0]);
 
-    } else if (game.phaserConfig['bitmap'].join().includes(name) && this.game.phaserConfig.spritesheet[name]) {
+    } else if (game.phaserConfig['bitmap'] && game.phaserConfig['bitmap'].join().includes(name) && this.game.phaserConfig.spritesheet[name]) {
       game.load.atlasXML(lastDir + name, file[1], file[0]);
 
     } else if (file[1].toLowerCase().includes('.json') && this.game.phaserConfig.spritesheet[name]) {
@@ -39,7 +53,12 @@ game.assetList.forEach(function (file) {
       var name = filename.substr(0, filename.lastIndexOf('.'));
       var objName = file.match(regEx2)[2];
       var pathArray = file.split('/');
+      if(dirAdd) {
       var lastDir = pathArray[pathArray.length - 2] + '-';
+      } else {
+        var lastDir = '';
+      }
+      console.log(game.assetList);
       if (game.phaserConfig.spritesheet[name]) {
         game.load.spritesheet(lastDir  + name, file, this.game.phaserConfig.spritesheet[name].height, game.phaserConfig.spritesheet[name].width, game.phaserConfig.spritesheet[name].frames);
       } else if (filename == name + '.mp3' || filename == name + '.ogg' || filename == name + '.wav') {

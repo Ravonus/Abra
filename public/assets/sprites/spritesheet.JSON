@@ -8,6 +8,9 @@
 	},
 	"seacreatures": {
 		"atlas": true
+	},
+	"test": {
+		"atlas": true
 	}
 }
 

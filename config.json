@@ -1,11 +1,19 @@
 {
   "abraConfig": {
-    "phaserSpriteTypes": ["png","jpg","jpeg"]
+    "phaserSpriteTypes": ["png","jpg","jpeg"],
+    "phaserVideoTypes": ["mp4","avi","webm"],
+    "phaserAudioTypes": ["mp3","ogg","wave"],
+    "phaserPort": 1337,
+    "phaserPath": "assets/"
   },
   "spritesheet": {
-    "testmonster":{
+    "testmonster": {
       "height": 125,
       "width": 165
+    },
+    "superduper": {
+      "height": 122,
+      "width": 54
     }
   },
     "testmonster2":{
