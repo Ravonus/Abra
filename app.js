@@ -1,14 +1,17 @@
 const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
+let Parser = require('expr-eval').Parser;
 const app = express();
 const dirPath = __dirname
+let phaserPath, port, x, firstValue;
+let newMath = 0;
 let filelist = [];
 let lastFile = [];
 let configArr = [];
+let math = new Object();
 let configVariables = new Object();
 let phaserConfig = new Object();
-let phaserPath, port, x;
 configVariables.variables = new Object();
 
 // Look at the config file within main Abra directory. You can put values you don't want people to see here.
@@ -26,7 +29,7 @@ if (configJSON.abraConfig) {
   //now delete object from configJSON. We don't want phaser to see theses.
   delete configJSON['abraConfig'];
 }
-
+//check for custom variables.
 if (configJSON.variables) {
 
   //   configVariables.variables = {}
@@ -71,18 +74,72 @@ for (i = 0; i < Object.keys(configJSON).length; i++) {
   phaserConfig[objName][first] = newObj;
 }
 
-
-//function to replace variable keys with actual value.
-const findAndReplace = (object, value, replacevalue) => {
+//function to replace variable keys with actual value. (This also does math if you set the correct flag within your variable values)
+const findAndReplace = (object, value, replacevalue, mathEquations) => {
+  y = 0;
+  
   for (var x in object) {
+    newNum = 0
     if (object.hasOwnProperty(x)) {
       //  
       if (typeof object[x] == 'object') {
-        findAndReplace(object[x], value, replacevalue);
+        
+        findAndReplace(object[x], value, replacevalue, mathEquations);
       }
+
+     
       if (object[x] == value) {
+     
+        if(mathEquations.length !== 0){
+         
+          
+    
+         
+   //           console.log(mathEquations[newMath]);
+           var operation = mathEquations[newMath].substring(0,1);
+              var num = mathEquations[newMath].substr(1);
+        //      console.log(newMath)
+       //       console.log(num)
+        //      console.log(firstValue)
+        if(!math[value]){
+       
+       //   firstValue = Parser.evaluate(`${firstValue}${operation}${num}`);
+          // console.log(replacevalue)
+          // console.log(firstValue)
+        
+          
+            replacevalue =  Parser.evaluate(`${mathEquations[0]}${mathEquations[1]}`);
+            math[value] = new Object({lastValue:replacevalue});
+       //     console.log(value)
+           
+            
+          
+        }else{
+          console.log(math[value].lastValue)
+          replacevalue =  Parser.evaluate(`${math[value].lastValue}${mathEquations[1]}`);
+          math[value].lastValue = replacevalue;
+        }
+
+        //  if(num.match('_')){
+        //    let numRuns = num.split('_');
+        //  newNum = Parser.evaluate(`${firstValue}${operation}${numRuns[0]}`);
+
+        //  }else{
+           
+        //    console.log(`${firstValue}${operation}${num}`)
+        //   newNum = Parser.evaluate(`${firstValue}${operation}${num}`);
+
+        
+        //  }
+     //    console.log(Parser.evaluate(`${firstValue}${operation}${num}`));
+
+            
+
+        }
+        
         object[x] = replacevalue;
       } else {
+        
         let str = object[x];
         // 
         for (var key in object[x]) {
@@ -297,7 +354,8 @@ let configArray = ((obj) => {
 listAllFiles(`${dirPath}/public/${phaserPath}`, filelist)
 
 delete phaserConfig['assets'].spritesheet;
-
+// loop through each custom variable and replace configs.
+// add math here?
 configArr.forEach((variable) => {
   if (x == undefined) {
     x = 0;
@@ -306,8 +364,14 @@ configArr.forEach((variable) => {
     key = variable;
     x++;
   } else {
-
-    findAndReplace(phaserConfig, '${' + key + '}', variable);
+    let matchArr = [];
+    regexp = /[*+-\/\d_]+/gi
+    if(typeof variable == 'string'){
+    matchArr = variable.match(/[+*\-.\/\d_]+/gi);
+   // console.log(variable);
+  }
+   
+    findAndReplace(phaserConfig, '${' + key + '}', variable, matchArr);
 
     x = 0
   }
@@ -320,7 +384,7 @@ const filesObj = {
     filePath: []
   }
 };
-
+console.log(phaserConfig.assets.spritesheet2)
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + '/views/partials');
