@@ -16,6 +16,8 @@ configVariables.variables = new Object();
 let configString = fs.readFileSync(`${dirPath}/config.json`);
 let configJSON = JSON.parse(configString);
 
+
+
 if (configJSON.abraConfig) {
   //DO stuff with abra configs
   port = process.env.PORT || configJSON.abraConfig.phaserPort;
@@ -112,7 +114,7 @@ const findAndReplace = (object, value, replacevalue) => {
   }
 }
 // function to get all files inside of directory and each directory inside of this. Used for HBS to push to front end. Automatic asset add into phaser.
-let firstPhaserPath;
+let firstPhaserPath, blacklisted;
 let phaserNewPath;
 let dirPhaserArr = [];
 
@@ -126,6 +128,14 @@ const listAllFiles = function (dir, filelist) {
       filelist = listAllFiles(dir + file + '/', filelist);
     }
     else {
+      configJSON.blacklist.forEach( (blacklist) => {
+          if(file === blacklist) {
+            blacklisted = true;
+          }
+      }) 
+          
+      if(!blacklisted){
+        console.log(file)
       let regexp = /\$?[hw]\d+[hw]\d+|@?[xy]\d+|[xy]\d+/gi;
       let match = file.match(regexp);
       if (match) {
@@ -264,7 +274,10 @@ const listAllFiles = function (dir, filelist) {
         let compareFile = file.replace(/^.*[\\\/]/, '');
         lastFile = compareFile.substr(0, compareFile.lastIndexOf('.'));
       }
+
+     }
     }
+    
   });
   return filelist;
 };

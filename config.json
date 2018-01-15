@@ -6,6 +6,7 @@
     "phaserPort": 1337,
     "phaserPath": "assets/"
   },
+  "blacklist": ["testh24w20Y200X1.txt"],
   "spritesheet": {
     "testmonster": {
       "height": 125,
