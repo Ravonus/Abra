@@ -6,8 +6,8 @@ var GameState = {
 
     //Only reason I don't have the dir-spinner2 for th eobject and for the menu. Is because its using my new code that lets you decide if you want that tag. I am currently not using it. 
     //PULL this merge when you get home.. it will have a lot of extra stuff from what I am working on but its cool..
-    var spriteAttributes = { spinner2: { position: { y:0 } }, 'Menu': { position: { x: 50 } } };
-
+  //  var spriteAttributes = { spinner2: { position: { y:0 } }, 'Menu': { position: { x: 50 } } };
+  spriteAttributes = game.phaserConfig.assets.createMenu; // This is coming from abra config.. you can add any attribute/sprite and it will create all with one line. (once we convert this back over of course)
     var spriteCreation = function (spriteAttributes) {
       for (var key in Object.keys(spriteAttributes)) {
           spriteName = Object.keys(spriteAttributes)[key];
