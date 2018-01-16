@@ -4,7 +4,7 @@ const fs = require('fs');
 let Parser = require('expr-eval').Parser;
 const app = express();
 const dirPath = __dirname
-let phaserPath, port, x, firstValue;
+let phaserPath, port, x, firstValue, superKey;
 let newMath = 0;
 let filelist = [];
 let lastFile = [];
@@ -77,69 +77,123 @@ for (i = 0; i < Object.keys(configJSON).length; i++) {
 //function to replace variable keys with actual value. (This also does math if you set the correct flag within your variable values)
 const findAndReplace = (object, value, replacevalue, mathEquations) => {
   y = 0;
-  
+
   for (var x in object) {
     newNum = 0
     if (object.hasOwnProperty(x)) {
       //  
       if (typeof object[x] == 'object') {
-        
+
         findAndReplace(object[x], value, replacevalue, mathEquations);
       }
 
-     
+
       if (object[x] == value) {
-     
-        if(mathEquations.length !== 0){
-         
+
+        if (mathEquations.length !== 0) {
+
+
+
+
+          //           console.log(mathEquations[newMath]);
+
+          //      console.log(newMath)
+          //       console.log(num)
+          //      console.log(firstValue)
+          if (!math[value]) {
+           
+
+            //   firstValue = Parser.evaluate(`${firstValue}${operation}${num}`);
+            // console.log(replacevalue)
+            // console.log(firstValue)
+            let mathBegin = [];
+            let mathOperation = [];
+            let mathEnd = [];
+            mathEquations.forEach( (equation, key) => {
+
+              if(!equation.match(/^[^\D]+/)){
+                mathBegin.push(mathBegin[key-1]);
+                mathOperation.push(equation.match(/[+-\/*]/)[0]);
+                mathEnd.push(equation.match(/\d+/)[0])
+              } else {
+              mathBegin.push(equation.match(/^[^\D]+/)[0]);
+              mathOperation.push(equation.match(/[+-/*]+/)[0]);
+              mathEnd.push(equation.match(/[\d]*$/)[0]);
+              
+              }
+
+            })
+            
           
+            // replacevalue =  Parser.evaluate(`${mathEquations}`);
+            if(mathBegin){
+              
+            math[value] = new Object({ lastValue: mathBegin,operation: mathOperation, lastNumber: mathEnd });
+            math[value].superKey = 0;
+            replacevalue = 123;
+              
+             }
+
+            
+          } else {
+          //  console.log(math[value].lastValue.length)
+            if(math[value].superKey < math[value].lastValue.length) {
+         
+
+        //      problem = `${math[value].lastValue[math[value].superKey]} ${math[value].operation[math[value].superKey]} ${math[value].lastNumber[math[value].superKey]}`;
+          //   console.log(problem);
+             replacevalue = Parser.evaluate(`${math[value].lastValue[math[value].superKey]}${math[value].operation[math[value].superKey]}${math[value].lastNumber[math[value].superKey]}`);
+             math[value]['replacevalue'] = [];
+             math[value].replacevalue.push(Parser.evaluate(`${math[value].lastValue[math[value].superKey]}${math[value].operation[math[value].superKey]}${math[value].lastNumber[math[value].superKey]}`));
+           //  console.log(replacevalue)
+              math[value].lastValue[math[value].superKey] = replacevalue;
+              math[value].superKey = math[value].superKey + 1;
+
+          } else {
+           
+         //   math[value]['replacevalue'] = [];
+            math[value].replacevalue.push(Parser.evaluate(`${math[value].lastValue[math[value].superKey-1]}${math[value].operation[math[value].superKey-1]}${math[value].lastNumber[math[value].superKey-1]}`));
+          //  console.log(replacevalue)
+        //     math[value].lastValue[math[value].superKey] = replacevalue;
+         //    math[value].superKey = math[value].superKey + 1;
+            math[value].superKey = 0;
+          }
+           
+              
     
-         
-   //           console.log(mathEquations[newMath]);
-           var operation = mathEquations[newMath].substring(0,1);
-              var num = mathEquations[newMath].substr(1);
-        //      console.log(newMath)
-       //       console.log(num)
-        //      console.log(firstValue)
-        if(!math[value]){
-       
-       //   firstValue = Parser.evaluate(`${firstValue}${operation}${num}`);
-          // console.log(replacevalue)
-          // console.log(firstValue)
-        
-          
-            replacevalue =  Parser.evaluate(`${mathEquations[0]}`);
-            math[value] = new Object({lastValue:replacevalue});
-       //     console.log(value)
-           
-            
-          
-        }else{
-          console.log(math[value].lastValue)
-          replacevalue =  Parser.evaluate(`${math[value].lastValue}${mathEquations[1]}`);
-          math[value].lastValue = replacevalue;
-        }
 
-        //  if(num.match('_')){
-        //    let numRuns = num.split('_');
-        //  newNum = Parser.evaluate(`${firstValue}${operation}${numRuns[0]}`);
-
-        //  }else{
-           
-        //    console.log(`${firstValue}${operation}${num}`)
-        //   newNum = Parser.evaluate(`${firstValue}${operation}${num}`);
-
-        
-        //  }
-     //    console.log(Parser.evaluate(`${firstValue}${operation}${num}`));
+      //       console.log(math[value])
+             
 
             
+          }
+
+          //  if(num.match('_')){
+          //    let numRuns = num.split('_');
+          //  newNum = Parser.evaluate(`${firstValue}${operation}${numRuns[0]}`);
+
+          //  }else{
+
+          //    console.log(`${firstValue}${operation}${num}`)
+          //   newNum = Parser.evaluate(`${firstValue}${operation}${num}`);
+
+
+          //  }
+          //    console.log(Parser.evaluate(`${firstValue}${operation}${num}`));
+
+
 
         }
-        
-        object[x] = replacevalue;
+
+        // object[x] = math[value]['replacevalue'][0];
+        if(math[value].replacevalue) {
+          console.log(math[value])
+          object[x] = math[value].replacevalue[0];
+        }else {
+          object[x] = replacevalue;
+        }
       } else {
-        
+
         let str = object[x];
         // 
         for (var key in object[x]) {
@@ -185,156 +239,156 @@ const listAllFiles = function (dir, filelist) {
       filelist = listAllFiles(dir + file + '/', filelist);
     }
     else {
-      configJSON.blacklist.forEach( (blacklist) => {
-          if(file === blacklist) {
-            blacklisted = true;
-          }
-      }) 
-          
-      if(!blacklisted){
-        console.log(file)
-      let regexp = /\$?[hw]\d+[hw]\d+|@?[xy]\d+|[xy]\d+/gi;
-      let match = file.match(regexp);
-      if (match) {
-        match.forEach((reg) => {
-          if (reg.toLowerCase().match('h') && reg.toLowerCase().match('w')) {
-            let find = reg.toLowerCase().match('h').input;
-            //        console.log(find.match(/[h]\d+/g)[0]);
-            //        console.log(find.match(/[w]\d+/g)[0]);
-
-          }
-          if (reg.toLowerCase().match('y')) {
-
-            // console.log(reg.toLowerCase().match(/[y]\d+/g)[0]);
-          }
-          if (reg.toLowerCase().match('x')) {
-            //  console.log(reg.toLowerCase().match(/[x]\d+/g)[0]);
-          }
-        });
-      }
-
-      if (file.toLowerCase() === 'config.json') {
-        // console.log(newDir + file);
-        let configString = fs.readFileSync(dir + file);
-        let configJSON = JSON.parse(configString);
-
-        if (configJSON.abraVariables) {
-
-          delete configJSON['abraVariables'];
-
+      configJSON.blacklist.forEach((blacklist) => {
+        if (file === blacklist) {
+          blacklisted = true;
         }
-
-        if (configJSON.variables) {
-
-          //   configVariables.variables = {}
-          for (i = 0; i < Object.keys(configJSON.variables).length; i++) {
-            let key = Object.keys(configJSON.variables)[i];
-            configVariables.variables[key] = configJSON.variables[key];
-
-          }
-          delete configJSON['variables'];
-          configVariablesArr = Array.from(configVariables.variables);
-          configArr = configArray(configVariables.variables);
-        }
-        let objName = dir.match(/([^\/]*)\/*$/)[1];
-        if (!phaserConfig[objName]) {
-          phaserConfig[objName] = new Object();
-        }
-        for (i = 0; i < Object.keys(configJSON).length; i++) {
-          let first = Object.keys(configJSON)[i];
-          let newObj = configJSON[first];
-          if (!phaserConfig[objName][first]) {
-            phaserConfig[objName][first] = new Object();
-          }
-          let second = Object.keys(newObj)[i]
-          phaserConfig[objName][first] = newObj;
-        }
-
-        if (configJSON.spritesheet) {
-          if (!phaserConfig.spritesheet) {
-            phaserConfig['spritesheet'] = new Object(configJSON.spritesheet);
-            delete configJSON['spritesheet'];
-
-          } else {
-            for (key in Object.keys(configJSON.spritesheet)) {
-              objectName = Object.keys(configJSON.spritesheet)[key];
-              phaserConfig.spritesheet[objectName] = new Object(configJSON.spritesheet[objectName]);
-              //now delete object from configJSON. We don't want it to write into other.
-
-
-            }
-            delete configJSON['spritesheet'];
-          }
-        }
-        return;
-      }
-      if (file.toLowerCase() === 'spritesheet.json') {
-        let configString = fs.readFileSync(dir + file);
-        let configJSON = JSON.parse(configString);
-
-        if (!phaserConfig['spritesheet']) {
-          phaserConfig['spritesheet'] = new Object(configJSON);
-        } else {
-          for (obj in Object.keys(configJSON)) {
-            key = Object.keys(configJSON)[obj];
-            phaserConfig['spritesheet'][key] = configJSON[key]
-          }
-        }
-        return;
-      }
-      if (file.toLowerCase().includes('.xml')) {
-
-        if (!phaserConfig['bitmap']) {
-          phaserConfig['bitmap'] = new Array(file);
-        } else {
-          phaserConfig['bitmap'].push(file);
-        }
-      }
-      if (file.toLowerCase().includes('.bak')) {
-
-        return
-      }
-
-      dirTrim = dir.slice(0, -1)
-      let dirArr = dirTrim.split(/\\|\//);
-      let firstPhaserPath;
-      let phaserNewPath;
-
-      dirArr.forEach((directory) => {
-        if (!firstPhaserPath) {
-          if (phaserPath.includes(directory)) {
-            firstPhaserPath = true;
-            phaserNewPath = `${directory}/`
-          }
-        } else {
-          phaserNewPath += `${directory}/`
-        }
-
       })
 
-      let compareFile = file.replace(/^.*[\\\/]/, '');
-      let name = compareFile.substr(0, compareFile.lastIndexOf('.'));
-      if (lastFile == name) {
-        if (Array.isArray(filelist[filelist.length - 1])) {
-          sameFile = phaserNewPath + file;
-          filelist[filelist.length - 1].push(sameFile);
-        } else {
-          sameFile = [phaserNewPath + file];
-          sameFile.push(filelist[filelist.length - 1])
-          filelist.pop();
-          filelist.push(sameFile);
-        }
-        let compareFile = file.replace(/^.*[\\\/]/, '');
-        lastFile = compareFile.substr(0, compareFile.lastIndexOf('.'));
-      } else {
-        filelist.push(phaserNewPath + file);
-        let compareFile = file.replace(/^.*[\\\/]/, '');
-        lastFile = compareFile.substr(0, compareFile.lastIndexOf('.'));
-      }
+      if (!blacklisted) {
+        console.log(file)
+        let regexp = /\$?[hw]\d+[hw]\d+|@?[xy]\d+|[xy]\d+/gi;
+        let match = file.match(regexp);
+        if (match) {
+          match.forEach((reg) => {
+            if (reg.toLowerCase().match('h') && reg.toLowerCase().match('w')) {
+              let find = reg.toLowerCase().match('h').input;
+              //        console.log(find.match(/[h]\d+/g)[0]);
+              //        console.log(find.match(/[w]\d+/g)[0]);
 
-     }
+            }
+            if (reg.toLowerCase().match('y')) {
+
+              // console.log(reg.toLowerCase().match(/[y]\d+/g)[0]);
+            }
+            if (reg.toLowerCase().match('x')) {
+              //  console.log(reg.toLowerCase().match(/[x]\d+/g)[0]);
+            }
+          });
+        }
+
+        if (file.toLowerCase() === 'config.json') {
+          // console.log(newDir + file);
+          let configString = fs.readFileSync(dir + file);
+          let configJSON = JSON.parse(configString);
+
+          if (configJSON.abraVariables) {
+
+            delete configJSON['abraVariables'];
+
+          }
+
+          if (configJSON.variables) {
+
+            //   configVariables.variables = {}
+            for (i = 0; i < Object.keys(configJSON.variables).length; i++) {
+              let key = Object.keys(configJSON.variables)[i];
+              configVariables.variables[key] = configJSON.variables[key];
+
+            }
+            delete configJSON['variables'];
+            configVariablesArr = Array.from(configVariables.variables);
+            configArr = configArray(configVariables.variables);
+          }
+          let objName = dir.match(/([^\/]*)\/*$/)[1];
+          if (!phaserConfig[objName]) {
+            phaserConfig[objName] = new Object();
+          }
+          for (i = 0; i < Object.keys(configJSON).length; i++) {
+            let first = Object.keys(configJSON)[i];
+            let newObj = configJSON[first];
+            if (!phaserConfig[objName][first]) {
+              phaserConfig[objName][first] = new Object();
+            }
+            let second = Object.keys(newObj)[i]
+            phaserConfig[objName][first] = newObj;
+          }
+
+          if (configJSON.spritesheet) {
+            if (!phaserConfig.spritesheet) {
+              phaserConfig['spritesheet'] = new Object(configJSON.spritesheet);
+              delete configJSON['spritesheet'];
+
+            } else {
+              for (key in Object.keys(configJSON.spritesheet)) {
+                objectName = Object.keys(configJSON.spritesheet)[key];
+                phaserConfig.spritesheet[objectName] = new Object(configJSON.spritesheet[objectName]);
+                //now delete object from configJSON. We don't want it to write into other.
+
+
+              }
+              delete configJSON['spritesheet'];
+            }
+          }
+          return;
+        }
+        if (file.toLowerCase() === 'spritesheet.json') {
+          let configString = fs.readFileSync(dir + file);
+          let configJSON = JSON.parse(configString);
+
+          if (!phaserConfig['spritesheet']) {
+            phaserConfig['spritesheet'] = new Object(configJSON);
+          } else {
+            for (obj in Object.keys(configJSON)) {
+              key = Object.keys(configJSON)[obj];
+              phaserConfig['spritesheet'][key] = configJSON[key]
+            }
+          }
+          return;
+        }
+        if (file.toLowerCase().includes('.xml')) {
+
+          if (!phaserConfig['bitmap']) {
+            phaserConfig['bitmap'] = new Array(file);
+          } else {
+            phaserConfig['bitmap'].push(file);
+          }
+        }
+        if (file.toLowerCase().includes('.bak')) {
+
+          return
+        }
+
+        dirTrim = dir.slice(0, -1)
+        let dirArr = dirTrim.split(/\\|\//);
+        let firstPhaserPath;
+        let phaserNewPath;
+
+        dirArr.forEach((directory) => {
+          if (!firstPhaserPath) {
+            if (phaserPath.includes(directory)) {
+              firstPhaserPath = true;
+              phaserNewPath = `${directory}/`
+            }
+          } else {
+            phaserNewPath += `${directory}/`
+          }
+
+        })
+
+        let compareFile = file.replace(/^.*[\\\/]/, '');
+        let name = compareFile.substr(0, compareFile.lastIndexOf('.'));
+        if (lastFile == name) {
+          if (Array.isArray(filelist[filelist.length - 1])) {
+            sameFile = phaserNewPath + file;
+            filelist[filelist.length - 1].push(sameFile);
+          } else {
+            sameFile = [phaserNewPath + file];
+            sameFile.push(filelist[filelist.length - 1])
+            filelist.pop();
+            filelist.push(sameFile);
+          }
+          let compareFile = file.replace(/^.*[\\\/]/, '');
+          lastFile = compareFile.substr(0, compareFile.lastIndexOf('.'));
+        } else {
+          filelist.push(phaserNewPath + file);
+          let compareFile = file.replace(/^.*[\\\/]/, '');
+          lastFile = compareFile.substr(0, compareFile.lastIndexOf('.'));
+        }
+
+      }
     }
-    
+
   });
   return filelist;
 };
@@ -365,12 +419,13 @@ configArr.forEach((variable) => {
     x++;
   } else {
     let matchArr = [];
-    regexp = /[*+-\/\d_]+/gi
-    if(typeof variable == 'string'){
-    matchArr = variable.match(/[+*\-.\/\d_]+/gi);
-   // console.log(variable);
-  }
-   
+    regexp = /[+*\-.\/\d_]+/gi
+    if (typeof variable == 'string') {
+      matchArr = variable.match(regexp);
+      console.log(matchArr);
+      // console.log(variable);
+    }
+
     findAndReplace(phaserConfig, '${' + key + '}', variable, matchArr);
 
     x = 0
