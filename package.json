@@ -4,6 +4,7 @@
   "description": "Phaser/Node Game",
   "main": "app.js",
   "dependencies": {
+    "expr-eval": "^1.2.1",
     "express": "^4.16.2",
     "hbs": "^4.0.1"
   },
