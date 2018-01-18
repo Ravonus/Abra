@@ -63,15 +63,8 @@ var spriteCreation = function (spriteAttributes) {
             }
             //sprite angle
             if (!spriteAttributes[spriteName].angle) {
-              spriteAttributes[spriteName].angle = {};
+              spriteAttributes[spriteName].angle = 0;
            }
-            if (!spriteAttributes[spriteName].angle.x) {
-              spriteAttributes[spriteName].angle.x = 0;
-     
-            }
-            if (!spriteAttributes[spriteName].angle.y) {
-              spriteAttributes[spriteName].angle.y = 0;
-            }
            
       game[sprite].position.x = spriteAttributes.position.x;
       game[sprite].position.y = spriteAttributes.position.y;
@@ -81,10 +74,9 @@ var spriteCreation = function (spriteAttributes) {
       game[sprite].scale.y = spriteAttributes.scale.y;
       game[sprite].pivot.x = spriteAttributes.pivot.x;
       game[sprite].pivot.y = spriteAttributes.pivot.y;
-      game[sprite].rotation.x = spriteAttributes.rotation.x;
-      game[sprite].rotation.y = spriteAttributes.rotation.y;
-      game[sprite].angle.x = spriteAttributes.angle.x;
-      game[sprite].angle.y = spriteAttributes.angle.y;
+      // game[sprite].rotation.x = spriteAttributes.rotation.x;
+      // game[sprite].rotation.y = spriteAttributes.rotation.y;
+      game[sprite].angle = spriteAttributes.angle;
            
      
  
