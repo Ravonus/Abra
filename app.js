@@ -3,7 +3,7 @@ const hbs = require('hbs');
 const fs = require('fs');
 let Parser = require('expr-eval').Parser;
 const app = express();
-const replacer = require('./tester.js')
+const replacer = require('./ReplaceAll.js')
 const dirPath = __dirname
 let phaserPath, port, x, firstValue, superKey;
 let newMath = 0;
@@ -99,7 +99,7 @@ const listAllFiles = function (dir, filelist) {
       })
 
       if (!blacklisted) {
-        console.log(file)
+      //  console.log(file)
         let regexp = /\$?[hw]\d+[hw]\d+|@?[xy]\d+|[xy]\d+/gi;
         let match = file.match(regexp);
         if (match) {
@@ -263,27 +263,13 @@ listAllFiles(`${dirPath}/public/${phaserPath}`, filelist)
 delete phaserConfig['assets'].spritesheet;
 // loop through each custom variable and replace configs.
 // add math here?
-configArr.forEach((variable) => {
-  if (x == undefined) {
-    x = 0;
-  }
-  if (x == 0) {
-    key = variable;
-    x++;
-  } else {
-    let matchArr = [];
-    regexp = /[+*\-.\/\d_]+/gi
-    if (typeof variable == 'string') {
-      matchArr = variable.match(regexp);
-      console.log(matchArr);
-      // console.log(variable);
-    }
+
 
 
 
 
    // findAndReplace(phaserConfig, '${' + key + '}', variable, matchArr);
-
+  // console.log(configArr);
 
    let objectTest = {
     test1: {
@@ -312,12 +298,10 @@ configArr.forEach((variable) => {
   
   };
 
-   console.log(replacer.replaceAll(objectTest, varObj));
+ //  console.log(replacer.replaceAll(objectTest, varObj));
 
     x = 0
-  }
 
-});
 
 const filesObj = {
   files: {
@@ -325,7 +309,14 @@ const filesObj = {
     filePath: []
   }
 };
-console.log(phaserConfig.assets.spritesheet2)
+
+//console.log(configVariables.variables);
+
+//phaserConfig.assets = replacer.ReplaceAll(phaserConfig.assets, configVariables.variables);
+//console.log(phaserConfig.assets.spritesheet2)
+phaserConfig = replacer.ReplaceAll(phaserConfig, configVariables.variables);
+phaserConfig = JSON.parse(phaserConfig);
+console.log(phaserConfig.assets);
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + '/views/partials');

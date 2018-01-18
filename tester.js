@@ -59,7 +59,7 @@ let replaceAll = ((objectTest, mapObj) => {
             
            if(mapObj[matched].runnum[eq] >= mapObj[matched].run[eq]){
 
-            console.log(`FUCK ${mapObj[matched].begin } ${operation} ${end}`)
+     
            
             mapObj[matched].begin  = Parser.evaluate(`${mapObj[matched].begin } ${operation} ${end}`)
             mapObj[matched].runnum[eq] = 0;
@@ -69,7 +69,7 @@ let replaceAll = ((objectTest, mapObj) => {
            } else {
              
               mapObj[matched].runnum[eq] =  mapObj[matched].runnum[eq] + 1;
-              console.log(mapObj[matched].runnum[eq]);
+        
            }
 
             }
@@ -122,6 +122,6 @@ let replaceAll = ((objectTest, mapObj) => {
 
 
 module.exports = {
-  replaceAll: replaceAll
+  ReplaceAll: replaceAll
 };
 
