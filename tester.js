@@ -2,36 +2,9 @@ let Parser = require('expr-eval').Parser;
 
 let mathObj;
 
-let objectTest = {
-  test1: {
-    erg: "1",
-    erg2: "${test}"
-  },
-  test2: {
-    erg: "${test}",
-    erg2: "2"
-  },
-  test3: {
-    erg: "${test}",
-    erg2: "2",
-    "erg3": "123132 123213 ${test} ${math} ${test2}  ${test} toob ${math} chamone ${math}",
-    "erg4": "123132 123213 ${test} ${math} ${test2}  ${test} toob ${math} chamone ${math}",
-    "erg5": "${math2} ${math2} ${math2}",
-    "math": "${math}"
-  }
-}
+let replaceAll = ((objectTest, mapObj) => {
+  //let runNum = 0;
 
-var hrrm = 'test';
-var regexstring = '\\${' + hrrm + '}';
-var varObj = {
-  '\\${test}': "FUCK",
-  '\\${test2}': "fuck2",
-  '\\${math}': "",
-  '\\${math2}': "1000"
-
-};
-function replaceAll(objectTest, mapObj) {
-  let runNum = 0;
   let operation,end,newBegin;
   let str = JSON.stringify(objectTest);
   var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
@@ -44,6 +17,8 @@ function replaceAll(objectTest, mapObj) {
 
       if(!mapObj[matched]){
         mapObj[matched] = new Object({begin:0});
+       mapObj[matched].run = {}
+       mapObj[matched].runnum = {}
       }
      
         
@@ -65,26 +40,36 @@ function replaceAll(objectTest, mapObj) {
           operation = eq.match(/[+*-\/]/);
 
           if(eq.match(/_/)){
+
             let run = eq.split('_');
-
-            let runNumber =  run[1];
-            end = run[0].substr(1);
+       
+           // let runNumber =  run[1];
+           if(!mapObj[matched].run[eq]) {
+            mapObj[matched].run[eq] = run[1];
+            mapObj[matched].runnum[eq] = 0;
+            
     
-
+           }
+           end = run[0].substr(1);
             if(operation){
              
            
           // begin = Parser.evaluate(`${begin} ${operation} ${end[0]}`)
-
+      //        console.log(mapObj[matched].runnum);
             
-           if(runNum >= runNumber-1){
-      
+           if(mapObj[matched].runnum[eq] >= mapObj[matched].run[eq]){
+
+            console.log(`FUCK ${mapObj[matched].begin } ${operation} ${end}`)
+           
             mapObj[matched].begin  = Parser.evaluate(`${mapObj[matched].begin } ${operation} ${end}`)
-            runNum = 0
+            mapObj[matched].runnum[eq] = 0;
+            mapObj[matched].run[eq] = run[1];
+            
   
            } else {
              
-             runNum++;
+              mapObj[matched].runnum[eq] =  mapObj[matched].runnum[eq] + 1;
+              console.log(mapObj[matched].runnum[eq]);
            }
 
             }
@@ -127,9 +112,16 @@ function replaceAll(objectTest, mapObj) {
     }
   });
 
-}
+})
 
-objectTests = replaceAll(objectTest, varObj);
+//objectTests = replaceAll(objectTest, varObj);
 
 
-console.log(JSON.parse(objectTests));
+//console.log(JSON.parse(objectTests));
+
+
+
+module.exports = {
+  replaceAll: replaceAll
+};
+

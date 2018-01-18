@@ -3,6 +3,7 @@ const hbs = require('hbs');
 const fs = require('fs');
 let Parser = require('expr-eval').Parser;
 const app = express();
+const replacer = require('./tester.js')
 const dirPath = __dirname
 let phaserPath, port, x, firstValue, superKey;
 let newMath = 0;
@@ -75,155 +76,7 @@ for (i = 0; i < Object.keys(configJSON).length; i++) {
 }
 
 //function to replace variable keys with actual value. (This also does math if you set the correct flag within your variable values)
-const findAndReplace = (object, value, replacevalue, mathEquations) => {
-  y = 0;
 
-  for (var x in object) {
-    newNum = 0
-    if (object.hasOwnProperty(x)) {
-      //  
-      if (typeof object[x] == 'object') {
-
-        findAndReplace(object[x], value, replacevalue, mathEquations);
-      }
-
-
-      if (object[x] == value) {
-
-        if (mathEquations.length !== 0) {
-
-
-
-
-          //           console.log(mathEquations[newMath]);
-
-          //      console.log(newMath)
-          //       console.log(num)
-          //      console.log(firstValue)
-          if (!math[value]) {
-           
-
-            //   firstValue = Parser.evaluate(`${firstValue}${operation}${num}`);
-            // console.log(replacevalue)
-            // console.log(firstValue)
-            let mathBegin = [];
-            let mathOperation = [];
-            let mathEnd = [];
-            mathEquations.forEach( (equation, key) => {
-
-              if(!equation.match(/^[^\D]+/)){
-                mathBegin.push(mathBegin[key-1]);
-                mathOperation.push(equation.match(/[+-\/*]/)[0]);
-                mathEnd.push(equation.match(/\d+/)[0])
-              } else {
-              mathBegin.push(equation.match(/^[^\D]+/)[0]);
-              mathOperation.push(equation.match(/[+-/*]+/)[0]);
-              mathEnd.push(equation.match(/[\d]*$/)[0]);
-              
-              }
-
-            })
-            
-          
-            // replacevalue =  Parser.evaluate(`${mathEquations}`);
-            if(mathBegin){
-              
-            math[value] = new Object({ lastValue: mathBegin,operation: mathOperation, lastNumber: mathEnd });
-            math[value].superKey = 0;
-            replacevalue = 123;
-              
-             }
-
-            
-          } else {
-          //  console.log(math[value].lastValue.length)
-            if(math[value].superKey < math[value].lastValue.length) {
-         
-
-        //      problem = `${math[value].lastValue[math[value].superKey]} ${math[value].operation[math[value].superKey]} ${math[value].lastNumber[math[value].superKey]}`;
-          //   console.log(problem);
-             replacevalue = Parser.evaluate(`${math[value].lastValue[math[value].superKey]}${math[value].operation[math[value].superKey]}${math[value].lastNumber[math[value].superKey]}`);
-             math[value]['replacevalue'] = [];
-             math[value].replacevalue.push(Parser.evaluate(`${math[value].lastValue[math[value].superKey]}${math[value].operation[math[value].superKey]}${math[value].lastNumber[math[value].superKey]}`));
-           //  console.log(replacevalue)
-              math[value].lastValue[math[value].superKey] = replacevalue;
-              math[value].superKey = math[value].superKey + 1;
-
-          } else {
-           
-         //   math[value]['replacevalue'] = [];
-            math[value].replacevalue.push(Parser.evaluate(`${math[value].lastValue[math[value].superKey-1]}${math[value].operation[math[value].superKey-1]}${math[value].lastNumber[math[value].superKey-1]}`));
-          //  console.log(replacevalue)
-        //     math[value].lastValue[math[value].superKey] = replacevalue;
-         //    math[value].superKey = math[value].superKey + 1;
-            math[value].superKey = 0;
-          }
-           
-              
-    
-
-      //       console.log(math[value])
-             
-
-            
-          }
-
-          //  if(num.match('_')){
-          //    let numRuns = num.split('_');
-          //  newNum = Parser.evaluate(`${firstValue}${operation}${numRuns[0]}`);
-
-          //  }else{
-
-          //    console.log(`${firstValue}${operation}${num}`)
-          //   newNum = Parser.evaluate(`${firstValue}${operation}${num}`);
-
-
-          //  }
-          //    console.log(Parser.evaluate(`${firstValue}${operation}${num}`));
-
-
-
-        }
-
-        // object[x] = math[value]['replacevalue'][0];
-        if(math[value].replacevalue) {
-          console.log(math[value])
-          object[x] = math[value].replacevalue[0];
-        }else {
-          object[x] = replacevalue;
-        }
-      } else {
-
-        let str = object[x];
-        // 
-        for (var key in object[x]) {
-          // skip loop if the property is from prototype
-          if (!object[x].hasOwnProperty(key)) continue;
-          var obj = object[x][key];
-          for (var prop in obj) {
-            // skip loop if the property is from prototype
-            if (!obj.hasOwnProperty(prop)) continue;
-            //checking full strings for variables. Instead of objects.
-            if (object[x][key]) {
-              if (typeof (object[x][key]) == "string") {
-                var newValue = value.slice(1);
-                var regexstring = '\\$' + newValue;
-                if (regexstring === '\\${x}') {
-                }
-                var regexp = new RegExp(regexstring, "gi");
-                var escaped = /\`a\`/g;
-                var re = /a/g;
-                var test = object[x][key].replace(regexp, replacevalue);
-                object[x][key] = test;
-              }
-            }
-          }
-        }
-      }
-      phaserConfig = object;
-    }
-  }
-}
 // function to get all files inside of directory and each directory inside of this. Used for HBS to push to front end. Automatic asset add into phaser.
 let firstPhaserPath, blacklisted;
 let phaserNewPath;
@@ -426,7 +279,40 @@ configArr.forEach((variable) => {
       // console.log(variable);
     }
 
-    findAndReplace(phaserConfig, '${' + key + '}', variable, matchArr);
+
+
+
+   // findAndReplace(phaserConfig, '${' + key + '}', variable, matchArr);
+
+
+   let objectTest = {
+    test1: {
+      erg: "1",
+      erg2: "${test}"
+    },
+    test2: {
+      erg: "${test}",
+      erg2: "2"
+    },
+    test3: {
+      erg: "${test}",
+      erg2: "2",
+      "erg3": "123132 123213 ${test} ${math} ${test2}  ${test} toob ${math} chamone ${math}",
+      "erg4": "123132 123213 ${test} ${math} ${test2}  ${test} toob ${math} chamone ${math} ${math2}",
+      "erg5": "${math2} ${math2} ${math2} ${math2} ${math2} ${math2}",
+      "math": "${math}"
+    }
+  }
+  
+  var varObj = {
+    '\\${test}': "FUCK",
+    '\\${test2}': "fuck2",
+    '\\${math}': "10+1+1000_4/3_3",
+    '\\${math2}': "1*0_2+1"
+  
+  };
+
+   console.log(replacer.replaceAll(objectTest, varObj));
 
     x = 0
   }
