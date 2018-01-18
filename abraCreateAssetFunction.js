@@ -5,66 +5,90 @@ var spriteCreation = function (spriteAttributes) {
   for (var key in Object.keys(spriteAttributes)) {
       spriteName = Object.keys(spriteAttributes)[key];
            
-            if (!spriteAttributes[spriteName].position) {
-              spriteAttributes[spriteName].position = {};
-            }
-            if (!spriteAttributes[spriteName].position.x) {
-              spriteAttributes[spriteName].position.x = 0;
-            }
-            if (!spriteAttributes[spriteName].position.y) {
-              spriteAttributes[spriteName].position.y = 0;
-            }
-            
+    var positionArray.x = [];
+    var positionArray.y = [];
+    if (!spriteAttributes[spriteName].position.x) {
+      positionArray.x = 0
+    } else {
+      positionArray.x = spriteAttributes[spriteName].position.x
+    }
+    if (!spriteAttributes[spriteName].position.y) {
+      positionArray.y = 0
+    } else {
+      positionArray.y = spriteAttributes[spriteName].position.y
+    }
+
             game[spriteName] = game.add.sprite(spriteAttributes[spriteName].position.y, spriteAttributes[spriteName].position.y, spriteName);
 
 
             //sprite anchor
-            if (!spriteAttributes[spriteName].anchor) {
-              spriteAttributes[spriteName].anchor = {};
-           }
-            if (!spriteAttributes[spriteName].anchor.x) {
-              spriteAttributes[spriteName].anchor.x = 0;
-            }
-            if (!spriteAttributes[spriteName].anchor.y) {
-              spriteAttributes[spriteName].anchor.y = 0;
-            }
+    var anchorArray.x = [];
+    var anchorArray.y = [];
+    if (!spriteAttributes[spriteName].anchor.x) {
+      anchorArray.x = 0
+    } else {
+      anchorArray.x = spriteAttributes[spriteName].anchor.x
+    }
+    if (!spriteAttributes[spriteName].anchor.y) {
+      anchorArray.y = 0
+    } else {
+      anchorArray.y = spriteAttributes[spriteName].anchor.y
+    }
             //sprite scale
-            if (!spriteAttributes[spriteName].scale) {
-              spriteAttributes[spriteName].scale = {};
-           }
-            if (!spriteAttributes[spriteName].scale.x) {
-              spriteAttributes[spriteName].scale.x = 1;
-     
-            }
-            if (!spriteAttributes[spriteName].scale.y) {
-              spriteAttributes[spriteName].scale.y = 1;
-            }
+    var scaleArray.x = [];
+    var scaleArray.y = [];
+    if (!spriteAttributes[spriteName].scale.x) {
+      scaleArray.x = 0
+    } else {
+      scaleArray.x = spriteAttributes[spriteName].scale.x
+    }
+    if (!spriteAttributes[spriteName].scale.y) {
+      scaleArray.y = 0
+    } else {
+      scaleArray.y = spriteAttributes[spriteName].scale.y
+    }
             //sprite pivoting
-            if (!spriteAttributes[spriteName].pivot) {
-              spriteAttributes[spriteName].pivot = {};
-           }
-            if (!spriteAttributes[spriteName].pivot.x) {
-              spriteAttributes[spriteName].pivot.x = 0;
-     
-            }
-            if (!spriteAttributes[spriteName].pivot.y) {
-              spriteAttributes[spriteName].pivot.y = 0;
-            }
+    var pivotArray.x = [];
+    var pivotArray.y = [];
+    if (!spriteAttributes[spriteName].pivot.x) {
+      pivotArray.x = 0
+    } else {
+      pivotArray.x = spriteAttributes[spriteName].pivot.x
+    }
+    if (!spriteAttributes[spriteName].pivot.y) {
+      pivotArray.y = 0
+    } else {
+      pivotArray.y = spriteAttributes[spriteName].pivot.y
+    }
+  }
             //sprite rotation
-            if (!spriteAttributes[spriteName].rotation) {
-              spriteAttributes[spriteName].rotation = {};
-           }
-            if (!spriteAttributes[spriteName].rotation.x) {
-              spriteAttributes[spriteName].rotation.x = 0;
-     
-            }
-            if (!spriteAttributes[spriteName].rotation.y) {
-              spriteAttributes[spriteName].rotation.y = 0;
+  var rotationArray = [];
+  
+  if (!spriteAttributes[spriteName].rotation) {
+    rotationArray += 0
+  } else {
+    rotationArray += spriteAttributes[spriteName].rotation
+  }
+  if (!spriteAttributes[spriteName].rotation) {
+    rotationArray -= 0
+  } else {
+    rotationArray -= spriteAttributes[spriteName].pivot
+  }
+  
             }
             //sprite angle
-            if (!spriteAttributes[spriteName].angle) {
-              spriteAttributes[spriteName].angle = 0;
-           }
+var angleArray = [];
+
+if (!spriteAttributes[spriteName].angle) {
+  angleArray += 0
+} else {
+  angleArray += spriteAttributes[spriteName].angle
+}
+if (!spriteAttributes[spriteName].angle) {
+  angleArray -= 0
+} else {
+  angleArray -= spriteAttributes[spriteName].angle
+}
            
       game[sprite].position.x = spriteAttributes.position.x;
       game[sprite].position.y = spriteAttributes.position.y;
@@ -74,8 +98,7 @@ var spriteCreation = function (spriteAttributes) {
       game[sprite].scale.y = spriteAttributes.scale.y;
       game[sprite].pivot.x = spriteAttributes.pivot.x;
       game[sprite].pivot.y = spriteAttributes.pivot.y;
-      // game[sprite].rotation.x = spriteAttributes.rotation.x;
-      // game[sprite].rotation.y = spriteAttributes.rotation.y;
+      game[sprite].rotation.x = spriteAttributes.rotation;
       game[sprite].angle = spriteAttributes.angle;
            
      
