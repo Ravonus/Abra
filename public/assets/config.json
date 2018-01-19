@@ -42,9 +42,8 @@
         "y": 0.5
       }
       
-    }
+    },
     
-  },
   "spritesheet2": {
     "sprite1" : {
       "height": "${testMath}",
