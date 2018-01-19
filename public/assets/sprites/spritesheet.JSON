@@ -1,0 +1,16 @@
+{
+	"p1-running2": {
+		"height": 120,
+		"width": 120
+	},
+	"seacreatures_json": {
+		"atlas": true
+	},
+	"seacreatures": {
+		"atlas": true
+	},
+	"test": {
+		"atlas": true
+	}
+}
+
