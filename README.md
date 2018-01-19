@@ -59,6 +59,7 @@ You can also use Abra to extend configration. Create sprites easily, and hide th
 <p>Using Abra is simple and easy. Abra autoload simply needs to be given a folder to look at. By default its set to /public/assets. This can be changed in the config file though. </p>
 <p>Once Abra has this. Autoloading is ready to go. Abra will simply teleport all the assets He finds into phaser. You can verify this simply by looking at your network tab and seeing sprites load </p>
 <p>Abra does need a built in command in order to preload - This is already in the basic Phaser template that comes with Abra </p>
+
 ```javascript
 var spriteDirectoryLoad = false; // This tells abra to put the sub directory infront of the asset name or not. Having this enabled can be usefull if same asset names are being used within project.
 eval("(" + JSON.parse(document.getElementById("phaserConfig").getAttribute('value')).assets.abraCommands.abraLoad + ")")(spriteDirectoryLoad); 
