@@ -1,8 +1,22 @@
 // function to get all files inside of directory and each directory inside of this. Used for HBS to push to front end. Automatic asset add into phaser.
 const fs = require('fs');
+const config = require('./config')
+let lastFile = [];
 let firstPhaserPath, blacklisted;
 let phaserNewPath;
 let dirPhaserArr = [];
+
+let configArray = ((obj) => {
+  let array = [];
+
+  for (i = 0; i < Object.keys(obj).length; i++) {
+    var key = Object.keys(obj)[i];
+    array.push(key, obj[key])
+
+  }
+  return array;
+
+})
 
 const listFiles = function (dir, filelist) {
 
@@ -14,22 +28,20 @@ const listFiles = function (dir, filelist) {
       filelist = listFiles(dir + file + '/', filelist);
     }
     else {
-      configJSON.blacklist.forEach((blacklist) => {
+      config.ConfigJSON.blacklist.forEach((blacklist) => {
         if (file === blacklist) {
           blacklisted = true;
         }
       })
 
       if (!blacklisted) {
-      //  console.log(file)
+        //  console.log(file)
         let regexp = /\$?[hw]\d+[hw]\d+|@?[xy]\d+|[xy]\d+/gi;
         let match = file.match(regexp);
         if (match) {
           match.forEach((reg) => {
             if (reg.toLowerCase().match('h') && reg.toLowerCase().match('w')) {
               let find = reg.toLowerCase().match('h').input;
-              //        console.log(find.match(/[h]\d+/g)[0]);
-              //        console.log(find.match(/[w]\d+/g)[0]);
 
             }
             if (reg.toLowerCase().match('y')) {
@@ -58,25 +70,25 @@ const listFiles = function (dir, filelist) {
             //   configVariables.variables = {}
             for (i = 0; i < Object.keys(configJSON.variables).length; i++) {
               let key = Object.keys(configJSON.variables)[i];
-              configVariables.variables[key] = configJSON.variables[key];
+              config.ConfigVariables.variables[key] = configJSON.variables[key];
 
             }
             delete configJSON['variables'];
-            configVariablesArr = Array.from(configVariables.variables);
-            configArr = configArray(configVariables.variables);
+            configVariablesArr = Array.from(config.ConfigVariables.variables);
+            configArr = configArray(config.ConfigVariables.variables);
           }
           let objName = dir.match(/([^\/]*)\/*$/)[1];
-          if (!phaserConfig[objName]) {
-            phaserConfig[objName] = new Object();
+          if (!config.PhaserConfig[objName]) {
+            config.PhaserConfig[objName] = new Object();
           }
           for (i = 0; i < Object.keys(configJSON).length; i++) {
             let first = Object.keys(configJSON)[i];
             let newObj = configJSON[first];
-            if (!phaserConfig[objName][first]) {
-              phaserConfig[objName][first] = new Object();
+            if (!config.PhaserConfig[objName][first]) {
+              config.PhaserConfig[objName][first] = new Object();
             }
             let second = Object.keys(newObj)[i]
-            phaserConfig[objName][first] = newObj;
+            config.PhaserConfig[objName][first] = newObj;
           }
 
           if (configJSON.spritesheet) {
@@ -89,8 +101,6 @@ const listFiles = function (dir, filelist) {
                 objectName = Object.keys(configJSON.spritesheet)[key];
                 phaserConfig.spritesheet[objectName] = new Object(configJSON.spritesheet[objectName]);
                 //now delete object from configJSON. We don't want it to write into other.
-
-
               }
               delete configJSON['spritesheet'];
             }
@@ -101,12 +111,12 @@ const listFiles = function (dir, filelist) {
           let configString = fs.readFileSync(dir + file);
           let configJSON = JSON.parse(configString);
 
-          if (!phaserConfig['spritesheet']) {
-            phaserConfig['spritesheet'] = new Object(configJSON);
+          if (!config.PhaserConfig['spritesheet']) {
+            config.PhaserConfig['spritesheet'] = new Object(configJSON);
           } else {
             for (obj in Object.keys(configJSON)) {
               key = Object.keys(configJSON)[obj];
-              phaserConfig['spritesheet'][key] = configJSON[key]
+              config.PhaserConfig['spritesheet'][key] = configJSON[key]
             }
           }
           return;
@@ -131,7 +141,7 @@ const listFiles = function (dir, filelist) {
 
         dirArr.forEach((directory) => {
           if (!firstPhaserPath) {
-            if (phaserPath.includes(directory)) {
+            if (config.PhaserPath.includes(directory)) {
               firstPhaserPath = true;
               phaserNewPath = `${directory}/`
             }

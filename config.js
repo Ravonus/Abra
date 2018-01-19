@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 let phaserPath, port, x, firstValue, superKey;
 let newMath = 0;
@@ -14,9 +13,6 @@ configVariables.variables = new Object();
 //Keep in mind if its a public value - Abra still has to push it to the DIV so phaser has access. Abra will not push anything within abraConfig to phaser. This is default abra configs.
 let configString = fs.readFileSync(`${dirPath}/config.json`);
 let configJSON = JSON.parse(configString);
-
-
-
 
 if (configJSON.abraConfig) {
   console.log("THIS SHIT BETTER BE RUNNING")
@@ -72,15 +68,9 @@ for (i = 0; i < Object.keys(configJSON).length; i++) {
   phaserConfig[objName][first] = newObj;
 }
 
-
-
-
-
-
-
-  exports.PhaserConfig = phaserConfig;
-  exports.PhaserPath = phaserPath;
-  exports.Port = port;
-  exports.ConfigJSON = configJSON;
-  exports.Filelist = filelist;
-  exports.ConfigVariables = configVariables;
+exports.PhaserConfig = phaserConfig;
+exports.PhaserPath = phaserPath;
+exports.Port = port;
+exports.ConfigJSON = configJSON;
+exports.Filelist = filelist;
+exports.ConfigVariables = configVariables;
