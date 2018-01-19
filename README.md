@@ -48,6 +48,7 @@ You can also use Abra to extend configration. Create sprites easily, and hide th
   <li>Custom Templates and variables</li>
   <li>Game example that shows full functionality of Abra.</li>
   <li>Auto server restart on asset changes</li>
+  <li>Automatic Phaser update/add</li>
   <li>Stand alone node module</li>
 </ul>
 
@@ -99,19 +100,19 @@ eval("(" + JSON.parse(document.getElementById("phaserConfig").getAttribute('valu
 ```JSON
 {
   "variables": {
-    "\\${scaleFunction}": 0.7,
-    "\\${scale}": 1,
-    "\\${scale2}": 2,
-    "\\${poop}": 1,
-    "\\${y}": 500,
-    "\\${x}": 1000,
-    "\\${anchor}": 0.5,
-    "\\${test}": "Custom variable name",
-    "\\${test2}": "Another one",
-    "\\${testMath}": 600,
-    "\\${testMath2}": "1*0_2+1",
-    "\\${mx}": "10+1+1000_4/3_3",
-    "\\${my}": "1*0_2+1"
+    "{scaleFunction}": 0.7,
+    "{scale}": 1,
+    "{scale2}": 2,
+    "{poop}": 1,
+    "{y}": 500,
+    "{x}": 1000,
+    "{anchor}": 0.5,
+    "{test}": "Custom variable name",
+    "{test2}": "Another one",
+    "{testMath}": 600,
+    "{testMath2}": "1*0_2+1",
+    "{mx}": "10+1+1000_4/3_3",
+    "{my}": "1*0_2+1"
   },
 
   "createMenu": {
@@ -129,7 +130,7 @@ eval("(" + JSON.parse(document.getElementById("phaserConfig").getAttribute('valu
     "spinner2" : {
       "position":{
         "x":400,
-        "y": "${testMath}"
+        "y": "{testMath}"
       },
       "scale": {
         "x": 0.5,
@@ -140,19 +141,19 @@ eval("(" + JSON.parse(document.getElementById("phaserConfig").getAttribute('valu
     
   "spritesheet2": {
     "sprite1" : {
-      "height": "${testMath}",
-      "width": "${testMath}",
-      "width2": "${testMath}",
-      "width3": "${testMath}",
-      "width4": "${testMath2}"
+      "height": "{testMath}",
+      "width": "{testMath}",
+      "width2": "{testMath}",
+      "width3": "{testMath}",
+      "width4": "{testMath2}"
     }
     
   },
   "loopCreate":{
     "spinner2": {
       "name": "spinner2",
-      "x": ["${mx}","${mx}","${mx}","${mx}","${mx}","${mx}"],
-      "y": ["${my}","${my}","${my}","${my}","${my}","${my}"]
+      "x": ["{mx}","{mx}","{mx}","{mx}","{mx}","{mx}"],
+      "y": ["{my}","{my}","{my}","{my}","{my}","{my}"]
     }
   }
 }

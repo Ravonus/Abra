@@ -3,9 +3,9 @@ const hbs = require('hbs');
 const fs = require('fs');
 const Parser = require('expr-eval').Parser;
 const app = express();
-const replacer = require('./replacer.js')
-const config = require('./config')
-const lister = require('./lister')
+const replacer = require('./modules/replacer.js')
+const config = require('./config/config')
+const lister = require('./modules/lister')
 const dirPath = __dirname
 
 lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
@@ -14,7 +14,7 @@ delete config.PhaserConfig['assets'].spritesheet;
 
 config.PhaserConfig = replacer.ReplaceAll(config.PhaserConfig, config.ConfigVariables.variables);
 config.PhaserConfig = JSON.parse(config.PhaserConfig);
-console.log(typeof config.PhaserConfig.assets.createMenu.spinner2.position.x);
+
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + '/views/partials');

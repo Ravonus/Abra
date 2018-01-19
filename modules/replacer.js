@@ -14,14 +14,12 @@ let replaceAll = ((objectTest, mapObj) => {
   }
 
   mapObj = escapedObj;
-
-
-
+  
   return str.replace(re, function (matched, keys) {
   
     regexp = /[\d]+[+*\-.\/_]+[\d]+/g;
     
-    if (typeof escapedObj['\\' + matched] === "string" && escapedObj['\\' + matched].match(regexp)) {
+    if (typeof mapObj['\\' + matched] === "string" && mapObj['\\' + matched].match(regexp)) {
      
       if (!mapObj[matched]) {
         mapObj[matched] = new Object({ begin: 0 });

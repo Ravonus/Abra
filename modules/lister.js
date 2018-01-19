@@ -1,6 +1,6 @@
 // function to get all files inside of directory and each directory inside of this. Used for HBS to push to front end. Automatic asset add into phaser.
 const fs = require('fs');
-const config = require('./config')
+const config = require('./../config/config')
 let lastFile = [];
 let firstPhaserPath, blacklisted;
 let phaserNewPath;

@@ -11,11 +11,11 @@ configVariables.variables = new Object();
 
 // Look at the config file within main Abra directory. You can put values you don't want people to see here.
 //Keep in mind if its a public value - Abra still has to push it to the DIV so phaser has access. Abra will not push anything within abraConfig to phaser. This is default abra configs.
-let configString = fs.readFileSync(`${dirPath}/config.json`);
+let configString = fs.readFileSync(`${dirPath}/abraConfig.json`);
 let configJSON = JSON.parse(configString);
 
 if (configJSON.abraConfig) {
-  console.log("THIS SHIT BETTER BE RUNNING")
+
   //DO stuff with abra configs
   port = process.env.PORT || configJSON.abraConfig.phaserPort;
   phaserPath = 'assets/' || configJSON.abraConfig.phaserPath;
@@ -23,6 +23,18 @@ if (configJSON.abraConfig) {
   //now delete object from configJSON. We don't want phaser to see theses.
   delete configJSON['abraConfig'];
 }
+
+//check and write functions
+
+if(configJSON.abraFunctions) {
+  //console.log(configJSON.abraFunctions)
+  for (var key in Object.keys(configJSON.abraFunctions)) {
+    functionName = Object.keys(configJSON.abraFunctions)[key];
+    console.log(`${functionName} ${configJSON.abraFunctions[functionName]}`)
+
+  }
+}
+
 //check for custom variables.
 if (configJSON.variables) {
 
@@ -67,6 +79,7 @@ for (i = 0; i < Object.keys(configJSON).length; i++) {
   let second = Object.keys(newObj)[i]
   phaserConfig[objName][first] = newObj;
 }
+
 
 exports.PhaserConfig = phaserConfig;
 exports.PhaserPath = phaserPath;
