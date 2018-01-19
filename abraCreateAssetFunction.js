@@ -18,9 +18,6 @@ let game;
 
 var spriteCreation = function (spriteAttributes) {
 
-
-  
-
   for (var key in Object.keys(spriteAttributes)) {
     var arrayLengths = new Array();
       spriteName = Object.keys(spriteAttributes)[key];
