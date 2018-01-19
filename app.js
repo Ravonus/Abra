@@ -12,13 +12,6 @@ lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
 
 delete config.PhaserConfig['assets'].spritesheet;
 
-const filesObj = {
-  files: {
-    fileName: [],
-    filePath: []
-  }
-};
-
 config.PhaserConfig = replacer.ReplaceAll(config.PhaserConfig, config.ConfigVariables.variables);
 config.PhaserConfig = JSON.parse(config.PhaserConfig);
 console.log(config.PhaserConfig);
@@ -31,7 +24,7 @@ app.use((req, res, next) => {
   let now = new Date().toString();
   let log = `${now}: ${req.method} ${req.url} ${req.ip}`;
 
-  fs.appendFile(__dirname + '/public/server.log', log + '\n', (err) => {
+  fs.appendFile(__dirname + '/logs/server.log', log + '\n', (err) => {
     if (err) {
       console.log('Unable to append to server.log.');
     }
