@@ -14,7 +14,7 @@ delete config.PhaserConfig['assets'].spritesheet;
 
 config.PhaserConfig = replacer.ReplaceAll(config.PhaserConfig, config.ConfigVariables.variables);
 config.PhaserConfig = JSON.parse(config.PhaserConfig);
-console.log(config.PhaserConfig);
+console.log(typeof config.PhaserConfig.assets.createMenu.spinner2.position.x);
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + '/views/partials');

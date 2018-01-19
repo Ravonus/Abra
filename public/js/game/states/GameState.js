@@ -21,8 +21,8 @@ var GameState = {
                 if (!spriteAttributes[spriteName].position.y) {
                   spriteAttributes[spriteName].position.y = 0;
                 }
-                
-                game[spriteName] = game.add.sprite(spriteAttributes[spriteName].position.y, spriteAttributes[spriteName].position.y, spriteName);
+
+                game[spriteName] = game.add.sprite(parseInt(spriteAttributes[spriteName].position.x), parseInt(spriteAttributes[spriteName].position.y), spriteName);
     
     
                 //sprite anchor

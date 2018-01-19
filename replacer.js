@@ -7,7 +7,7 @@ let replaceAll = ((objectTest, mapObj) => {
   let begin;
   return str.replace(re, function (matched, keys) {
     regexp = /[\d]+[+*\-.\/_]+[\d]+/g;
-    if (mapObj['\\' + matched].match(regexp)) {
+    if (typeof mapObj['\\' + matched] === "string" && mapObj['\\' + matched].match(regexp)) {
 
       if (!mapObj[matched]) {
         mapObj[matched] = new Object({ begin: 0 });
@@ -52,7 +52,7 @@ let replaceAll = ((objectTest, mapObj) => {
       return mapObj['\\' + matched];
 
     } else {
-
+      
       return mapObj['\\' + matched];
     }
   });
