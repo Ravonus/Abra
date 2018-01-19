@@ -1,7 +1,23 @@
-<h1>Abra</h1>
-<h3>Abra's got a part time job.</h3>
+<style> .header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+  background: #555;
+}
 
-<img src="https://cdn.bulbagarden.net/upload/9/9e/PCP063.png" alt="Abra">
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+}
+</style>
+
+
+<div class="header">
+  <img src="https://cdn.bulbagarden.net/upload/9/9e/PCP063.png" alt="logo" />
+  <h1>Abra</h1>
+  <h3>Abra's got a part time job.</h3>
+</div>
 
 Abra Auto loader and server for Phaser.
 
