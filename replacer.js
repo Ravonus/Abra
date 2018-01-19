@@ -5,10 +5,24 @@ let replaceAll = ((objectTest, mapObj) => {
   let str = JSON.stringify(objectTest);
   var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
   let begin;
-  return str.replace(re, function (matched, keys) {
-    regexp = /[\d]+[+*\-.\/_]+[\d]+/g;
-    if (typeof mapObj['\\' + matched] === "string" && mapObj['\\' + matched].match(regexp)) {
 
+  let escapedObj = new Object();
+
+  for (var key in Object.keys(mapObj)) {
+    match = Object.keys(mapObj)[key];
+    escapedObj['\\'+match] = mapObj[match]
+  }
+
+  mapObj = escapedObj;
+
+
+
+  return str.replace(re, function (matched, keys) {
+  
+    regexp = /[\d]+[+*\-.\/_]+[\d]+/g;
+    
+    if (typeof escapedObj['\\' + matched] === "string" && escapedObj['\\' + matched].match(regexp)) {
+     
       if (!mapObj[matched]) {
         mapObj[matched] = new Object({ begin: 0 });
         mapObj[matched].run = {}
