@@ -5,18 +5,26 @@ const fs = require('fs');
 const Parser = require('expr-eval').Parser;
 const app = express();
 const replacer = require('./modules/replacer.js')
-
+let callbackPhaserConfig = 'test';
 const lister = require('./modules/lister')
 const dirPath = __dirname
 counter = 0
 
 
 let objName = 'abraMain'
- setTimeout(function(){
- // console.log(config.ConfigJSON);
+//  setTimeout(function(){
+
+  callbackPhaserConfig = (callback) => {
+
+  
+  if(config.PhaserConfig) {
+
+  
 if (!config.PhaserConfig[objName]) {
   config.PhaserConfig[objName] = new Object();
 }
+
+
 for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
   let first = Object.keys(config.ConfigJSON)[i];
   let newObj = config.ConfigJSON[first];
@@ -69,7 +77,16 @@ for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
   counter++;
 }
 
- }, 300);
+
+ }else {
+  setTimeout(function(){
+   callbackPhaserConfig(callback);
+  }, 0);
+ }
+}
+callbackPhaserConfig();
+//  }, 300);
+ 
 // setTimeout(function(){
 
 //console.log(config.PhaserConfig);

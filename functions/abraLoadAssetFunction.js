@@ -1,4 +1,5 @@
 function (dirAdd) {
+  console.log('async as good as we are gonna get it...');
   var phaserConfig = document.getElementById('phaserConfig').getAttribute('value');
   document.getElementById('phaserConfig').remove();
   var listFiles = document.getElementById('listFiles').getAttribute('value');
