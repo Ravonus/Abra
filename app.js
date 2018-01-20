@@ -1,7 +1,4 @@
-require('./config/config')(function (err, phaserConfig) {
-  // This code runs once the passwords have been loaded.
-  console.log('test');
-});
+const config = require('./config/config');
 const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
@@ -72,7 +69,7 @@ for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
   counter++;
 }
 
- }, 350);
+ }, 300);
 // setTimeout(function(){
 
 //console.log(config.PhaserConfig);
