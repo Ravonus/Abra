@@ -28,11 +28,13 @@ const listFiles = function (dir, filelist) {
       filelist = listFiles(dir + file + '/', filelist);
     }
     else {
+      if(config.ConfigJSON.blacklist) {
       config.ConfigJSON.blacklist.forEach((blacklist) => {
         if (file === blacklist) {
           blacklisted = true;
         }
       })
+    }
 
       if (!blacklisted) {
         //  console.log(file)
