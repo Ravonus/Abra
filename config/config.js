@@ -4,9 +4,7 @@ let phaserPath, port, x, firstValue, superKey;
 let newMath = 0;
 let filelist = [];
 let configArr = [];
-let abraReplace = {}
-
-
+let abraReplace = {};
 let math = new Object();
 dirPath = __dirname;
 let configVariables = new Object();
@@ -22,13 +20,9 @@ if (!configJSON.abraConfig) {
   configJSON.abraConfig = new Object();
 }
 
-  //DO stuff with abra configs
-  port = process.env.PORT || configJSON.abraConfig.phaserPort || 1337;
-  phaserPath = 'assets/' || configJSON.abraConfig.phaserPath;
-
-  //now delete object from configJSON. We don't want phaser to see theses.
-
-
+//DO stuff with abra configs
+port = process.env.PORT || configJSON.abraConfig.phaserPort || 1337;
+phaserPath = 'assets/' || configJSON.abraConfig.phaserPath;
 
 //check and write functions
 
@@ -64,79 +58,67 @@ if (configJSON.spritesheet) {
 
 }
 
-
 if (configJSON.abraFunctions) {
   counter = 0
   //console.log(configJSON.abraFunctions)
   for (var key in Object.keys(configJSON.abraFunctions)) {
-    functionName = Object.keys(configJSON.abraFunctions)[key];
-  //  console.log(`${functionName} ${configJSON.abraFunctions[functionName]}`)
+    let functionName = Object.keys(configJSON.abraFunctions)[key];
+    
 
     let newData;
 
-
-  
-
-    fs.readFile(path.join(dirPath, '../functions/' , configJSON.abraFunctions[functionName]), "utf8", function (err, data) {
+    fs.readFile(path.join(dirPath, '../functions/', configJSON.abraFunctions[functionName]), "utf8", function (err, data) {
       let configFile = fs.readFileSync(`${dirPath}/abraConfig.json`);
       let fileObj = JSON.parse(configFile);
-      
-      if(fileObj.blacklist){
+
+      if (fileObj.blacklist) {
         abraReplace.blacklist = fileObj.blacklist;
       }
 
-      if(!fileObj.abraConfig) {
-        abraReplace.abraConfig = { 
-           "abraConfig": {
-          "phaserSpriteTypes": [
-            "png",
-            "jpg",
-            "jpeg"
-          ],
-          "phaserVideoTypes": [
-            "mp4",
-            "avi",
-            "webm"
-          ],
-          "phaserAudioTypes": [
-            "mp3",
-            "ogg",
-            "wav"
-          ],
-          "phaserPort": 1337,
-          "phaserPath": "assets/"
-        }
-      };
-      
-    } else {
-      abraReplace.abraConfig = fileObj.abraConfig;
-    }
+      if (!fileObj.abraConfig) {
+        abraReplace.abraConfig = {
+          "abraConfig": {
+            "phaserSpriteTypes": [
+              "png",
+              "jpg",
+              "jpeg"
+            ],
+            "phaserVideoTypes": [
+              "mp4",
+              "avi",
+              "webm"
+            ],
+            "phaserAudioTypes": [
+              "mp3",
+              "ogg",
+              "wav"
+            ],
+            "phaserPort": 1337,
+            "phaserPath": "assets/"
+          }
+        };
 
-    //put check logic here like we did above with the abraconfig.
-    abraReplace.abraFunctions = fileObj.abraFunctions;
-    abraReplace.abraCreate = fileObj.abraCreate;
+      } else {
+        abraReplace.abraConfig = fileObj.abraConfig;
+      }
 
-
+      //put check logic here like we did above with the abraconfig.
+      abraReplace.abraFunctions = fileObj.abraFunctions;
+      abraReplace.abraCreate = fileObj.abraCreate;
       newData = data.replace(/\s+/g, " ");
       abraReplace[functionName] = newData;
       phaserConfig[functionName] = newData;
 
-      new Promise(function(resolve, reject) {
-      fs.writeFile(`${dirPath}/abraConfig.json`, JSON.stringify(abraReplace, undefined, 2), (callback, err) => {
-     //   configJSON = JSON.stringify(abraReplace);
-  
-        
-          
-         
-        if (err) reject(err)
+      new Promise(function (resolve, reject) {
+        fs.writeFile(`${dirPath}/abraConfig2.json`, JSON.stringify(abraReplace, undefined, 2), (callback, err) => {
+
+          if (err) reject(err)
           else resolve(counter++)
-         
 
-          if(counter === Object.keys(configJSON.abraFunctions).length ){
+          if (counter === Object.keys(configJSON.abraFunctions).length) {
 
+            if (abraReplace) {
 
-            if(abraReplace){
-   
               configJSON = abraReplace;
               let objName = 'abraMain'
               if (!phaserConfig[objName]) {
@@ -151,54 +133,45 @@ if (configJSON.abraFunctions) {
                 let second = Object.keys(newObj)[i]
                 phaserConfig[objName][first] = newObj;
               }
-              }
-        
-        
+            }
+            let finalConfig = fs.readFileSync(`${dirPath}/abraConfig2.json`);
 
-        
-         
-        exports.PhaserConfig = phaserConfig;
-        
-        
-        exports.AbraReplace = abraReplace;
-        
-        exports.PhaserPath = phaserPath;
-        exports.Port = port;
-        exports.ConfigJSON = configJSON;
-        exports.Filelist = filelist;
-        exports.ConfigVariables = configVariables;
-        
-        }
-        
-    
+            fs.writeFile(`${dirPath}/abraConfig.json`, finalConfig, (callback, err) => {
+            
+            
+            exports.PhaserConfig = phaserConfig;
+            exports.PhaserPath = phaserPath;
+            exports.Port = port;
+            exports.ConfigJSON = configJSON;
+            exports.Filelist = filelist;
+            exports.ConfigVariables = configVariables;
+          });
+          }
+        });
       });
-
     });
-
-    });
-   
   }
-}else {
+} else {
 
   let objName = 'abraMain'
-if (!config.PhaserConfig[objName]) {
-  config.PhaserConfig[objName] = new Object();
-}
-for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
-  let first = Object.keys(config.ConfigJSON)[i];
-  let newObj = config.ConfigJSON[first];
-  if (!config.PhaserConfig[objName][first]) {
-    config.PhaserConfig[objName][first] = new Object();
+  if (!config.PhaserConfig[objName]) {
+    config.PhaserConfig[objName] = new Object();
   }
-  let second = Object.keys(newObj)[i]
-  config.PhaserConfig[objName][first] = newObj;
-}
+  for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
+    let first = Object.keys(config.ConfigJSON)[i];
+    let newObj = config.ConfigJSON[first];
+    if (!config.PhaserConfig[objName][first]) {
+      config.PhaserConfig[objName][first] = new Object();
+    }
+    let second = Object.keys(newObj)[i]
+    config.PhaserConfig[objName][first] = newObj;
+  }
 
   exports.PhaserConfig = phaserConfig;
   exports.PhaserPath = phaserPath;
-exports.Port = port;
-exports.ConfigJSON = configJSON;
-exports.Filelist = filelist;
-exports.ConfigVariables = configVariables;
+  exports.Port = port;
+  exports.ConfigJSON = configJSON;
+  exports.Filelist = filelist;
+  exports.ConfigVariables = configVariables;
 }
 

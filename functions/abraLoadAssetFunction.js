@@ -1,5 +1,5 @@
 function (dirAdd) {
-  console.log('async as good as we are gonna get it...');
+  console.log('fixing...');
   var phaserConfig = document.getElementById('phaserConfig').getAttribute('value');
   document.getElementById('phaserConfig').remove();
   var listFiles = document.getElementById('listFiles').getAttribute('value');
@@ -8,7 +8,7 @@ function (dirAdd) {
   var regEx = /^.*[\\\/]/;
   var regEx2 = /([^\/]*)\/*$/;
   game.assetList = JSON.parse(listFiles);
-  game.assetList.forEach(function(file) {
+  game.assetList.forEach(function (file) {
     if (Array.isArray(file)) {
       var filename = file[0].replace(regEx, '');
       var name = filename.substr(0, filename.lastIndexOf('.'));
@@ -20,7 +20,7 @@ function (dirAdd) {
       } else {
         var lastDir = '';
       }
-      file.forEach(function(newFile) {
+      file.forEach(function (newFile) {
         newFileArray.push(newFile);
         lastFile = newFile;
       });
@@ -38,7 +38,7 @@ function (dirAdd) {
       } else if (file[1].toLowerCase().includes('.csv')) {
         game.load.tilemap(lastDir + name, file[1], null, Phaser.Tilemap.CSV);
         game.load.image(lastDir + name + '-tiles', file[0]);
-      } else {}
+      } else { }
     } else {
       var filename = file.replace(regEx, '');
       var name = filename.substr(0, filename.lastIndexOf('.'));

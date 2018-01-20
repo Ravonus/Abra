@@ -20,9 +20,7 @@ let objName = 'abraMain'
   if(config.PhaserConfig) {
 
   
-if (!config.PhaserConfig[objName]) {
-  config.PhaserConfig[objName] = new Object();
-}
+
 
 
 for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
