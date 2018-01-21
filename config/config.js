@@ -137,7 +137,8 @@ if (configJSON.abraFunctions) {
             let finalConfig = fs.readFileSync(`${dirPath}/abraConfig2.json`);
 
             fs.writeFile(`${dirPath}/abraConfig.json`, finalConfig, (callback, err) => {
-            
+              var filePath = `${dirPath}/abraConfig2.json`; 
+              fs.unlinkSync(filePath);
             
             exports.PhaserConfig = phaserConfig;
             exports.PhaserPath = phaserPath;
