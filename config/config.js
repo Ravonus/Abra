@@ -22,7 +22,8 @@ if (!configJSON.abraConfig) {
 
 //DO stuff with abra configs
 port = process.env.PORT || configJSON.abraConfig.phaserPort || 1337;
-phaserPath = 'assets/' || configJSON.abraConfig.phaserPath;
+phaserPath = configJSON.abraConfig.phaserPath || 'assets/';
+console.log(phaserPath);
 
 //check and write functions
 
@@ -104,10 +105,12 @@ if (configJSON.abraFunctions) {
 
       //put check logic here like we did above with the abraconfig.
       abraReplace.abraFunctions = fileObj.abraFunctions;
-      abraReplace.abraCreate = fileObj.abraCreate;
+      // abraReplace.abraCreate = fileObj.abraCreate;
+      if(data){
       newData = data.replace(/\s+/g, " ");
       abraReplace[functionName] = newData;
       phaserConfig[functionName] = newData;
+      }
 
       new Promise(function (resolve, reject) {
         fs.writeFile(`${dirPath}/abraConfig2.json`, JSON.stringify(abraReplace, undefined, 2), (callback, err) => {
@@ -120,19 +123,20 @@ if (configJSON.abraFunctions) {
             if (abraReplace) {
 
               configJSON = abraReplace;
-              let objName = 'abraMain'
-              if (!phaserConfig[objName]) {
-                phaserConfig[objName] = new Object();
-              }
-              for (i = 0; i < Object.keys(configJSON).length; i++) {
-                let first = Object.keys(configJSON)[i];
-                let newObj = configJSON[first];
-                if (!phaserConfig[objName][first]) {
-                  phaserConfig[objName][first] = new Object();
-                }
-                let second = Object.keys(newObj)[i]
-                phaserConfig[objName][first] = newObj;
-              }
+              // let objName = 'abraMain'   // this can seperate configs into abraMain - Not sure if I want to organize it this way.
+              // if (!phaserConfig[objName]) {
+              //   phaserConfig[objName] = new Object();
+              // }
+              // for (i = 0; i < Object.keys(configJSON).length; i++) {
+              //   let first = Object.keys(configJSON)[i];
+              //   let newObj = configJSON[first];
+              //   if (!phaserConfig[objName][first]) {
+              //     phaserConfig[objName][first] = new Object();
+              //   }
+              //   let second = Object.keys(newObj)[i]
+              //   phaserConfig[objName][first] = newObj;
+              // }
+            //  console.log( phaserConfig);
             }
             let finalConfig = fs.readFileSync(`${dirPath}/abraConfig2.json`);
 
@@ -154,19 +158,19 @@ if (configJSON.abraFunctions) {
   }
 } else {
 
-  let objName = 'abraMain'
-  if (!config.PhaserConfig[objName]) {
-    config.PhaserConfig[objName] = new Object();
-  }
-  for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
-    let first = Object.keys(config.ConfigJSON)[i];
-    let newObj = config.ConfigJSON[first];
-    if (!config.PhaserConfig[objName][first]) {
-      config.PhaserConfig[objName][first] = new Object();
-    }
-    let second = Object.keys(newObj)[i]
-    config.PhaserConfig[objName][first] = newObj;
-  }
+  // let objName = 'abraMain'
+  // if (!config.PhaserConfig[objName]) {
+  //   config.PhaserConfig[objName] = new Object();
+  // }
+  // for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
+  //   let first = Object.keys(config.ConfigJSON)[i];
+  //   let newObj = config.ConfigJSON[first];
+  //   if (!config.PhaserConfig[objName][first]) {
+  //     config.PhaserConfig[objName][first] = new Object();
+  //   }
+  //   let second = Object.keys(newObj)[i]
+  //   config.PhaserConfig[objName][first] = newObj;
+  // }
 
   exports.PhaserConfig = phaserConfig;
   exports.PhaserPath = phaserPath;

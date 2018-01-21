@@ -1,4 +1,4 @@
-let testfunction = function (spriteAttributes) {
+function (spriteAttributes) {
 
   var lastPosX, lastPosY;
 

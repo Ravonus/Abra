@@ -12,7 +12,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon app.js --config config/nodemon.json"
+    "watch": "nodemon app.js --config config/nodemon.json",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",

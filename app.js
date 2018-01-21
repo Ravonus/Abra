@@ -24,23 +24,24 @@ let objName = 'abraMain'
 
 
 
-for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
-  let first = Object.keys(config.ConfigJSON)[i];
-  let newObj = config.ConfigJSON[first];
-  if (!config.PhaserConfig[objName][first]) {
-    config.PhaserConfig[objName][first] = new Object();
-  }
-  let second = Object.keys(newObj)[i]
-  config.PhaserConfig[objName][first] = newObj;
-  if(counter == Object.keys(config.ConfigJSON).length-1){
+
+
+
+
+ 
     
     lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
-
+    if(config.PhaserConfig['assets']) {
     delete config.PhaserConfig['assets'].spritesheet;
-    
+    }
+
+    console.log(Object.keys(config.ConfigVariables.variables).length);
+    if(Object.keys(config.ConfigVariables.variables).length !== 0) {
     config.PhaserConfig = replacer.ReplaceAll(config.PhaserConfig, config.ConfigVariables.variables);
-    config.PhaserConfig = JSON.parse(config.PhaserConfig);
     
+    config.PhaserConfig = JSON.parse(config.PhaserConfig);
+    }
+    console.log(config.PhaserConfig)
     app.set('view engine', 'hbs');
     
     hbs.registerPartials(__dirname + '/views/partials');
@@ -72,9 +73,8 @@ for (i = 0; i < Object.keys(config.ConfigJSON).length; i++) {
     });
 
 
-  }
-  counter++;
-}
+  
+
 
 
  }else {
