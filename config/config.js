@@ -23,8 +23,6 @@ if (!configJSON.abraConfig) {
 //DO stuff with abra configs
 port = process.env.PORT || configJSON.abraConfig.phaserPort || 1337;
 phaserPath = configJSON.abraConfig.phaserPath || 'assets/';
-console.log(phaserPath);
-
 //check and write functions
 
 //check for custom variables.
@@ -64,7 +62,7 @@ if (configJSON.abraFunctions) {
   //console.log(configJSON.abraFunctions)
   for (var key in Object.keys(configJSON.abraFunctions)) {
     let functionName = Object.keys(configJSON.abraFunctions)[key];
-    
+
 
     let newData;
 
@@ -106,10 +104,10 @@ if (configJSON.abraFunctions) {
       //put check logic here like we did above with the abraconfig.
       abraReplace.abraFunctions = fileObj.abraFunctions;
       // abraReplace.abraCreate = fileObj.abraCreate;
-      if(data){
-      newData = data.replace(/\s+/g, " ");
-      abraReplace[functionName] = newData;
-      phaserConfig[functionName] = newData;
+      if (data) {
+        newData = data.replace(/\s+/g, " ");
+        abraReplace[functionName] = newData;
+        phaserConfig[functionName] = newData;
       }
 
       new Promise(function (resolve, reject) {
@@ -136,21 +134,21 @@ if (configJSON.abraFunctions) {
               //   let second = Object.keys(newObj)[i]
               //   phaserConfig[objName][first] = newObj;
               // }
-            //  console.log( phaserConfig);
+              //  console.log( phaserConfig);
             }
             let finalConfig = fs.readFileSync(`${dirPath}/abraConfig2.json`);
 
             fs.writeFile(`${dirPath}/abraConfig.json`, finalConfig, (callback, err) => {
-              var filePath = `${dirPath}/abraConfig2.json`; 
+              var filePath = `${dirPath}/abraConfig2.json`;
               fs.unlinkSync(filePath);
-            
-            exports.PhaserConfig = phaserConfig;
-            exports.PhaserPath = phaserPath;
-            exports.Port = port;
-            exports.ConfigJSON = configJSON;
-            exports.Filelist = filelist;
-            exports.ConfigVariables = configVariables;
-          });
+
+              exports.PhaserConfig = phaserConfig;
+              exports.PhaserPath = phaserPath;
+              exports.Port = port;
+              exports.ConfigJSON = configJSON;
+              exports.Filelist = filelist;
+              exports.ConfigVariables = configVariables;
+            });
           }
         });
       });

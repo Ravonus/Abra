@@ -5,9 +5,7 @@ function (spriteAttributes) {
   for (var key in Object.keys(spriteAttributes)) {
     var arrayLengths = new Array();
     spriteName = Object.keys(spriteAttributes)[key];
-
     // i think there will be a issue if no positon or the other object is assigned. WE will work at that after we do this though. WE can just test it.
-
 
     if (spriteAttributes[spriteName].position) {
       if (spriteAttributes[spriteName].position.x) {

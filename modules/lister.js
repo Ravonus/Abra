@@ -1,4 +1,3 @@
-// function to get all files inside of directory and each directory inside of this. Used for HBS to push to front end. Automatic asset add into phaser.
 const fs = require('fs');
 const config = require('./../config/config')
 let lastFile = [];
@@ -42,16 +41,16 @@ const listFiles = function (dir, filelist) {
         let match = file.match(regexp);
         if (match) {
           match.forEach((reg) => {
-            if (reg.toLowerCase().match('h') && reg.toLowerCase().match('w')) {
-              let find = reg.toLowerCase().match('h').input;
+            if (reg.toLowerCase().match(/h|height/) && reg.toLowerCase().match(/h|width/)) {
+              let find = reg.toLowerCase().match(/h|height/).input;
+              //This is a way to grab spritesheet height/width and also position of sprites without configuration file. Via file naming convention. Search is ready. Feature has not been added.
 
             }
             if (reg.toLowerCase().match('y')) {
 
-              // console.log(reg.toLowerCase().match(/[y]\d+/g)[0]);
             }
             if (reg.toLowerCase().match('x')) {
-              //  console.log(reg.toLowerCase().match(/[x]\d+/g)[0]);
+
             }
           });
         }
@@ -60,7 +59,6 @@ const listFiles = function (dir, filelist) {
           // console.log(newDir + file);
           let configString = fs.readFileSync(dir + file);
           let configJSON = JSON.parse(configString);
-
           if (configJSON.abraVariables) {
 
             delete configJSON['abraVariables'];

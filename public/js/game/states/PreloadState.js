@@ -2,7 +2,7 @@ var PreloadState = {
   preload: function () {
     //built in Abra asset load function and Abra object creator.
    
-    eval("(" + JSON.parse(document.getElementById("phaserConfig").getAttribute('value')).abraLoad + ")")(false);
+    eval("(" + JSON.parse(document.getElementById("phaserConfig").getAttribute('value')).abraLoad + ")")(true);
     eval("(" + game.phaserConfig.abraTest + ")")('pooper');
   },
   create: function () {

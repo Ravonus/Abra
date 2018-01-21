@@ -1,6 +1,6 @@
-let Parser = require('expr-eval').Parser;
+const parser = require('expr-eval').Parser;
 let mathObj;
-let replaceAll = ((objectTest, mapObj) => {
+const replaceAll = ((objectTest, mapObj) => {
   let operation, end, newBegin;
   let str = JSON.stringify(objectTest);
   var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
@@ -41,7 +41,7 @@ let replaceAll = ((objectTest, mapObj) => {
           end = run[0].substr(1);
           if (operation) {
             if (mapObj[matched].runnum[eq] >= mapObj[matched].run[eq]) {
-              mapObj[matched].begin = Parser.evaluate(`${mapObj[matched].begin} ${operation} ${end}`)
+              mapObj[matched].begin = parser.evaluate(`${mapObj[matched].begin} ${operation} ${end}`)
               mapObj[matched].runnum[eq] = 0;
               mapObj[matched].run[eq] = run[1];
             } else {
@@ -52,7 +52,7 @@ let replaceAll = ((objectTest, mapObj) => {
           end = eq.match(/\d+$/);
           if (operation) {
             if (mapObj[matched].begin) {
-              mapObj[matched].begin = Parser.evaluate(`${mapObj[matched].begin} ${operation} ${end}`)
+              mapObj[matched].begin = parser.evaluate(`${mapObj[matched].begin} ${operation} ${end}`)
             }
           }
         }
