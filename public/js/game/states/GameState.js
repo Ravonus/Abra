@@ -5,7 +5,7 @@ var GameState = {
 
     let testfunction = function (spriteAttributes) {
 
-      var lastPosX, lastPosY, lastSclX, lastSclY, lastAnchX, lastAnchY, lastPivX, lastPivY,Ang;
+      var lastPosX, lastPosY, lastSclX, lastSclY, lastAnchX, lastAnchY, lastPivX, lastPivY,Ang,Tnt;
 
       for (var key in Object.keys(spriteAttributes)) {
         var arrayLengths = new Array();
@@ -27,7 +27,7 @@ var GameState = {
 
             }
           }
-            console.log('test' + spriteAttributes[spriteName].position.y)
+          
           if (spriteAttributes[spriteName].position.y) {
           
             if (!Array.isArray(spriteAttributes[spriteName].position.y)) {
@@ -45,7 +45,7 @@ var GameState = {
           arrayLengths.push(spriteAttributes[spriteName].position.x.length);
           spriteAttributes[spriteName].position.y = [0];
           arrayLengths.push(spriteAttributes[spriteName].position.y.length);
-          // with position we want an else because we need to set 0 - sprite creation requires a default postion. Since other attributes are add-ons we can just exclude the code if not set.
+          
         }
         if (spriteAttributes[spriteName].anchor) {
 
@@ -126,6 +126,17 @@ var GameState = {
           }
         }
 
+        if (spriteAttributes[spriteName].tint) {
+          if (spriteAttributes[spriteName].tint) {
+            if (!Array.isArray(spriteAttributes[spriteName].tint)) {
+              spriteAttributes[spriteName].tint = [spriteAttributes[spriteName].tint];
+              arrayLengths.push(spriteAttributes[spriteName].tint.length);
+            } else {
+              spriteAttributes[spriteName].tint = spriteAttributes[spriteName].tint;
+              arrayLengths.push(spriteAttributes[spriteName].tint.length);
+            }
+          }
+        }
 
 if (arrayLengths.length > 0) {
           arrayLengths.sort(function (a, b) { return b - a });
@@ -315,6 +326,23 @@ if (arrayLengths.length > 0) {
 
 
           }
+          console.log(Tnt)
+          spriteAttributes[spriteName].tint = Math.random() * 0xffffff;
+          if (spriteAttributes[spriteName].tint && spriteAttributes[spriteName].tint[key]) {
+
+            Tnt = spriteAttributes[spriteName].tint[key];
+            if (spriteAttributes[spriteName].tint.length > 1) {
+              isLoop = true;
+            }
+          } else {
+            spriteAttributes[spriteName].tint = {};
+          }
+
+          
+
+          
+      
+
           
           if (isLoop) {
 
@@ -322,6 +350,7 @@ if (arrayLengths.length > 0) {
             spriteNameAsset = key + '-' + spriteName;
 
           } 
+
           
           
          
@@ -355,6 +384,10 @@ if (arrayLengths.length > 0) {
             game[spriteNameAsset].angle = parseInt(Ang);
         }
 
+        if(Tnt){
+          game[spriteNameAsset].tint = parseInt(Tnt);
+        }
+
        
 
         
@@ -373,6 +406,7 @@ if (arrayLengths.length > 0) {
         lastSclX = undefined;
         lastSclY = undefined;
         Ang = undefined;
+        Tnt = undefined;
 
 
 
@@ -390,6 +424,7 @@ if (arrayLengths.length > 0) {
         "position": {
           "x": [100, 300, 400],
           "y": [100,500]
+          
     
         },
         "anchor": {
@@ -399,7 +434,12 @@ if (arrayLengths.length > 0) {
         "scale": {
           "x": [4, 5],
           "y": [2]
-        }
+        },
+
+        "tint": []
+
+
+        
           
         
       },
@@ -422,7 +462,7 @@ if (arrayLengths.length > 0) {
       
     
     }
-    console.log(game.phaserConfig.assets.createMenu["sprites-spinner2"])
+    
     testfunction(game.phaserConfig.assets.createMenu);
 
     
