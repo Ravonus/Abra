@@ -14,6 +14,7 @@ var GameScene = {
 
     var plugin = {key: "Camera3DPlugin",url: "../js/plugins/camera3d.min.js",sceneKey: "cameras3d"};
 
+ 
     this.load.scenePlugin(plugin);
   
 
