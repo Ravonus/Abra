@@ -1,0 +1,22 @@
+{
+  "variables": {
+    "{qboxHeight}": 128,
+    "{qboxWidth}": 64,
+    "{Range WeaponHeight}": 128,
+    "{Range WeaponWidth}": 64,
+    "{seacreatures_jsonHeight}": 128,
+    "{seacreatures_jsonWidth}": 64,
+    "{spinner2Height}": 128,
+    "{spinner2Width}": 64
+  },
+  "play": {
+    "height":180,
+    "width":310,
+    "frames": 2
+  },
+  "gridDot": {
+    "height":451,
+    "width":456,
+    "frames": 1
+  }
+}
