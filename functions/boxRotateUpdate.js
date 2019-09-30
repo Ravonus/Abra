@@ -1,77 +1,61 @@
-
-
 {
-    if (cursors.left.isDown)
-    {
-        if (isPosition)
-        {
-            cameras.blue_ball.x -= 4;
+
+    var socketBall = Phaser.phaserConfig.socketBalls.name;
+    xAxis = new Phaser.Math.Vector3(1, 0, 0);
+    yAxis = new Phaser.Math.Vector3(0, 1, 0);
+    zAxis = new Phaser.Math.Vector3(0, 0, 1);
+
+    if (inputs.left.isDown) {
+        if (isPosition) {
+            cameras[socketBall].x -= 4;
         }
-        else
-        {
-            cameras.blue_ball.rotate(0.01, xAxis);
+        else {
+            cameras[socketBall].rotate(0.01, xAxis);
         }
     }
-    else if (cursors.right.isDown)
-    {
-        if (isPosition)
-        {
-            cameras.blue_ball.x += 4;
+    else if (inputs.right.isDown) {
+        if (isPosition) {
+            cameras[socketBall].x += 4;
         }
-        else
-        {
-            cameras.blue_ball.rotate(-0.01, xAxis);
+        else {
+            cameras[socketBall].rotate(-0.01, xAxis);
         }
     }
 
-    if (cursors.up.isDown)
-    {
-        if (cursors.shift.isDown)
-        {
-            if (isPosition)
-            {
-                cameras.blue_ball.y += 4;
+    if (inputs.up.isDown) {
+        if (inputs.shift.isDown) {
+            if (isPosition) {
+                cameras[socketBall].y += 4;
             }
-            else
-            {
-                cameras.blue_ball.rotate(0.01, yAxis);
+            else {
+                cameras[socketBall].rotate(0.01, yAxis);
             }
         }
-        else
-        {
-            if (isPosition)
-            {
-                cameras.blue_ball.z += 4;
+        else {
+            if (isPosition) {
+                cameras[socketBall].z += 4;
             }
-            else
-            {
-                cameras.blue_ball.rotate(0.01, zAxis);
+            else {
+                cameras[socketBall].rotate(0.01, zAxis);
             }
         }
     }
-    else if (cursors.down.isDown)
-    {
-        if (cursors.shift.isDown)
-        {
-            if (isPosition)
-            {
-                cameras.blue_ball.y -= 4;
+    else if (inputs.down.isDown) {
+        if (inputs.shift.isDown) {
+            if (isPosition) {
+                cameras[socketBall].y -= 4;
             }
-            else
-            {
-                cameras.blue_ball.rotate(-0.01, yAxis);
+            else {
+                cameras[socketBall].rotate(-0.01, yAxis);
             }
         }
-        else
-        {
-            if (isPosition)
-            {
-                cameras.blue_ball.z -= 4;
+        else {
+            if (isPosition) {
+                cameras[socketBall].z -= 4;
             }
-            else
-            {
-                cameras.blue_ball.rotate(-0.01, zAxis);
+            else {
+                cameras[socketBall].rotate(-0.01, zAxis);
             }
         }
     }
-  }
+}

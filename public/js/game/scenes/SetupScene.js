@@ -1,6 +1,7 @@
 var SetupScene = {
   init: function () {
 
+
     // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
     //  game.scale.pageAlignVertically = true;
@@ -14,11 +15,6 @@ var SetupScene = {
 
   this.load.scenePlugin(plugin);
 
-
-
-  console.log("HERE");
-  console.log(this);
-  console.log("HERE");
 
 
   },

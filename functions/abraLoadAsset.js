@@ -1,15 +1,11 @@
 {
-  console.log("I BE RUNNING ARG");
+
   var phaserConfig = document.getElementById('phaserConfig').getAttribute('value');
   document.getElementById('phaserConfig').remove();
   var listFiles = document.getElementById('listFiles').getAttribute('value');
-
-  console.log(phaserConfig);
   
   this.phaserConfig = JSON.parse(phaserConfig);
   Phaser.phaserConfig = JSON.parse(phaserConfig);
-
-
 
   var scene = this.game.scene.keys.PreloadScene;
   var game = this;
@@ -22,9 +18,6 @@
 
   var gameScene = this.game.scene.keys.GameScene;
 
-
-
- 
   game.assetList.forEach(function (file) {
     
     if (Array.isArray(file)) {

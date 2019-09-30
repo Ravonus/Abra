@@ -1,4 +1,3 @@
-const http = require('http');
 
 module.exports = {
 
@@ -23,8 +22,20 @@ module.exports = {
 
       client.on('deleteDot', function (data) {
 
-        client.broadcast.emit('deleteDot', data.gameObject);
-        client.emit('deleteDot', data.gameObject);
+        console.log(data);
+
+        client.broadcast.emit('deleteDot', data);
+        client.emit('deleteDot', data);
+
+      });
+
+
+      client.on('grow', function (data) {
+
+        console.log(data);
+
+        client.broadcast.emit('grow', data);
+        client.emit('grow', data);
 
       });
 

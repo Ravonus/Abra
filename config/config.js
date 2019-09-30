@@ -111,6 +111,7 @@ if (configJSON.abraFunctions) {
       //put check logic here like we did above with the abraconfig.
       abraReplace.abraFunctions = fileObj.abraFunctions;
       // abraReplace.abraCreate = fileObj.abraCreate;
+
       data = data.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
       var lines = data.split('\n');
 

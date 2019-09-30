@@ -1,9 +1,7 @@
 {
 
-
   function createSprite(obj) {
 
-    
     sprites[spriteNameAsset] = game.add.sprite(parseInt(lastPosX), parseInt(lastPosY), spriteName);
 
     if (obj.setInteractive) {
@@ -20,14 +18,6 @@
   var game = this.game.scene.keys[mainScene];
 
   var plugins = this.game.scene.keys.PreloadScene;
-
-  console.log(this.game);
-
-  game.load.scenePlugin('Camera3DPlugin', '../../plugins/camera3d.min.js', 'Camera3DPlugin', 'cameras3d');
-
-  console.log("HEREz");
-  console.log(game);
-  console.log("HERE");
 
   var lastPosX, lastPosY, lastSclX, lastSclY, lastAnchX, lastAnchY, lastPivX, lastPivY, Ang;
 
@@ -346,10 +336,6 @@
         var FOV = spriteAttributes[spriteName]['3dcamera'].FOV;
         var setZ = spriteAttributes[spriteName]['3dcamera'].setZ;
         var setPixelScale = spriteAttributes[spriteName]['3dcamera'].setPixelScale;
-
-        console.log("GAME");
-
-      
 
         cameras[spriteName] = game.cameras3d.add(FOV).setZ(setZ).setPixelScale(setPixelScale);
 
