@@ -21,11 +21,14 @@ var GameScene = {
 
   create: function () {
 
-    this.add.sprite(100, 100, 'red_aura').setInteractive();
+   // this.add.sprite(100, 100, 'red_aura').setInteractive();
 
     updateCamControls = Function.apply(null, [Phaser.phaserConfig.boxUpdate]);
 
+    console.log(Phaser.phaserConfig.assets['grid10x10']);
+
     Function.apply(null, ['spriteAttributes', 'mainScene', Phaser.phaserConfig.abraCreate])(Phaser.phaserConfig.assets['3dGrid'], this.scene.key);
+    Function.apply(null, ['spriteAttributes', 'mainScene', Phaser.phaserConfig.abraCreate])(Phaser.phaserConfig.assets['grid10x10'], this.scene.key);
 
     updateCamControls();
 

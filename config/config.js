@@ -71,9 +71,11 @@ if (configJSON.abraFunctions) {
       let configFile = fs.readFileSync(`${dirPath}/abraConfig.json`);
       let fileObj = JSON.parse(configFile);
 
-      if (fileObj.jsonGenerator) {
-        abraReplace.jsonGenerator = fileObj.jsonGenerator;
-      }
+
+      if(fileObj.projects) abraReplace.projects = fileObj.projects;
+
+      if (fileObj.jsonGenerator) abraReplace.jsonGenerator = fileObj.jsonGenerator;
+      
 
 
       if (fileObj.blacklist) {
@@ -114,10 +116,12 @@ if (configJSON.abraFunctions) {
 
       data = data.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
       var lines = data.split('\n');
+      
 
       for (var i = 0; i < lines.length; i++) {
-
+   //     lines[i] = lines[i].trim();
         if(!lines[i].endsWith(';')){
+        
           if(lines[i] !== ''.trim() && lines[i] !== "{" && !lines[i].endsWith('}') && !lines[i].endsWith(')'))
           lines[i] = lines[i] + ';';
         }

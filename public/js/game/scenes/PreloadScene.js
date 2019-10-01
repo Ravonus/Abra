@@ -5,8 +5,7 @@ var PreloadScene = {
 
   },
   create: function () {
-  
-  
+    
     this.scene.start('MenuScene');
   }
 };

@@ -28,8 +28,7 @@
 
     var isLoop = false;
 
-    if (spriteAttributes[spriteName].position) {
-      if (spriteAttributes[spriteName].position.x) {
+    if (spriteAttributes[spriteName].position && spriteAttributes[spriteName].position.x) {
         if (!Array.isArray(spriteAttributes[spriteName].position.x)) {
           spriteAttributes[spriteName].position.x = [spriteAttributes[spriteName].position.x];
 
@@ -38,7 +37,7 @@
         } else {
           arrayLengths.push(spriteAttributes[spriteName].position.x.length);
         };
-      };
+
       if (spriteAttributes[spriteName].position.y) {
 
         if (!Array.isArray(spriteAttributes[spriteName].position.y)) {
@@ -48,7 +47,7 @@
           arrayLengths.push(spriteAttributes[spriteName].position.y.length);
 
         };
-      };
+      }
     } else {
       spriteAttributes[spriteName].position = new Object();
       spriteAttributes[spriteName].position.x = [0];

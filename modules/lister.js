@@ -17,25 +17,43 @@ let configArray = ((obj) => {
 
 })
 
-const listFiles = function (dir, filelist) {
+const listFiles = async function (dir, filelist, project) {
 
   files = fs.readdirSync(dir);
-  filelist = filelist || [];
+  filelist = filelist ? filelist : []; 
 
-  files.forEach(function (file) {
 
-    if(file !== '.DS_Store')
-    if (fs.statSync(dir + '/' + file).isDirectory()) {
-      filelist = listFiles(dir + file + '/', filelist);
+
+  if (!config.ConfigJSON.projects) config.ConfigJSON.projects = {};
+
+  files.forEach(async function (file) {
+
+
+    if (file !== '.DS_Store' && fs.statSync(dir + '/' + file).isDirectory() && !JSON.stringify(config.ConfigJSON.projects).includes(file)) {
+ 
+      filelist = await listFiles(dir + file + '/', filelist);
+    }
+    else if (file !== '.DS_Store' && fs.statSync(dir + '/' + file).isDirectory() && project === file) {
+
+      filelist = await listFiles(dir + file + '/', filelist);
+    }
+    else if (file !== '.DS_Store' && fs.statSync(dir + '/' + file).isDirectory() && project !== file) {
+
+
+
+
+
+      console.log('RETRUN' + config.Filelist)
+   //   return;
     }
     else {
-      if(config.ConfigJSON.blacklist) {
-      config.ConfigJSON.blacklist.forEach((blacklist) => {
-        if (file === blacklist) {
-          blacklisted = true;
-        }
-      })
-    }
+      if (config.ConfigJSON.blacklist) {
+        config.ConfigJSON.blacklist.forEach((blacklist) => {
+          if (file === blacklist) {
+            blacklisted = true;
+          }
+        })
+      }
 
       if (!blacklisted) {
         let regexp = /\$?[hw]\d+[hw]\d+|@?[xy]\d+|[xy]\d+/gi;
@@ -58,7 +76,11 @@ const listFiles = function (dir, filelist) {
 
         if (file.toLowerCase() === 'config.json') {
 
+
           let configString = fs.readFileSync(dir + file);
+
+
+
           let configJSON = JSON.parse(configString);
           if (configJSON.abraVariables) {
 
@@ -67,11 +89,14 @@ const listFiles = function (dir, filelist) {
           }
 
           if (configJSON.variables) {
+  
 
             //   configVariables.variables = {}
             for (i = 0; i < Object.keys(configJSON.variables).length; i++) {
               let key = Object.keys(configJSON.variables)[i];
               config.ConfigVariables.variables[key] = configJSON.variables[key];
+
+         
 
             }
             delete configJSON['variables'];
@@ -91,6 +116,8 @@ const listFiles = function (dir, filelist) {
             }
             let second = Object.keys(newObj)[i];
             config.PhaserConfig[objName][first] = newObj
+            console.log("AF")
+            console.log(newObj);
           }
 
           if (configJSON.spritesheet) {
@@ -107,6 +134,9 @@ const listFiles = function (dir, filelist) {
               delete configJSON['spritesheet'];
             }
           }
+
+         
+
           return;
         }
         if (file.toLowerCase() === 'spritesheet.json') {
@@ -143,7 +173,7 @@ const listFiles = function (dir, filelist) {
 
         dirArr.forEach((directory) => {
           if (!firstPhaserPath) {
-            
+
             if (config.PhaserPath.includes(directory) && directory !== '') {
 
               firstPhaserPath = true;
@@ -172,10 +202,10 @@ const listFiles = function (dir, filelist) {
           lastFile = compareFile.substr(0, compareFile.lastIndexOf('.'));
         } else {
 
-          if(file !== '.DS_Store') {
+          if (file !== '.DS_Store') {
             filelist.push(phaserNewPath + file);
           }
-          
+
           let compareFile = file.replace(/^.*[\\\/]/, '');
           lastFile = compareFile.substr(0, compareFile.lastIndexOf('.'));
         }
@@ -184,6 +214,8 @@ const listFiles = function (dir, filelist) {
     }
 
   });
+
+
 
   return filelist;
 };
