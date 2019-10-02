@@ -62,10 +62,6 @@ let callbackPhaserConfig = (callback) => {
       next();
     });
 
-
-    console.log("FUC")
-    console.log(config.PhaserConfig.assets);
-
     if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0) 
     gameRoutes('/', 'index.hbs', config.Filelist, config.PhaserConfig);
  
@@ -82,7 +78,10 @@ let callbackPhaserConfig = (callback) => {
       config.Filelist = [];
  
       var project = config.ConfigJSON.projects[key];
+      console.log(config.PhaserConfig.projects)
       var lista = await lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist, project.name ? project.name : key);
+
+     
 
       gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', lista, config.PhaserConfig);
       

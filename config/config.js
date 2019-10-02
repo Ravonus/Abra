@@ -11,6 +11,132 @@ let configVariables = new Object();
 let phaserConfig = new Object();
 configVariables.variables = new Object();
 
+
+
+
+async function readFile(mPath, functionName, project) {
+
+
+ 
+
+  var data = await fs.readFileSync(mPath , "utf8");
+
+  //if(project) functionName = project;
+
+    let configFile = fs.readFileSync(`${dirPath}/abraConfig.json`);
+    let fileObj = JSON.parse(configFile);
+
+
+    if (fileObj.projects) abraReplace.projects = fileObj.projects;
+
+    if (fileObj.jsonGenerator) abraReplace.jsonGenerator = fileObj.jsonGenerator;
+
+
+
+    if (fileObj.blacklist) {
+      abraReplace.blacklist = fileObj.blacklist;
+    } else {
+      abraReplace.blacklist = [];
+    }
+
+
+    if (!fileObj.abraConfig) {
+      abraReplace.abraConfig = {
+        "phaserSpriteTypes": [
+          "png",
+          "jpg",
+          "jpeg"
+        ],
+        "phaserVideoTypes": [
+          "mp4",
+          "avi",
+          "webm"
+        ],
+        "phaserAudioTypes": [
+          "mp3",
+          "ogg",
+          "wav"
+        ],
+        "phaserPort": 1337,
+        "phaserPath": "assets/"
+      };
+
+    } else {
+      abraReplace.abraConfig = fileObj.abraConfig;
+    }
+
+    //put check logic here like we did above with the abraconfig.
+    abraReplace.abraFunctions = project ? fileObj.projects[project].functions :fileObj.abraFunctions;
+    // abraReplace.abraCreate = fileObj.abraCreate;
+
+    data = data.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
+    var lines = data.split('\n');
+
+
+    for (var i = 0; i < lines.length; i++) {
+      //     lines[i] = lines[i].trim();
+      if (!lines[i].endsWith(';')) {
+
+        if (lines[i] !== ''.trim() && lines[i] !== "{" && !lines[i].endsWith('}') && !lines[i].endsWith(')'))
+          lines[i] = lines[i] + ';';
+      }
+    }
+
+    data = lines.join(' ');
+    newData = data.replace(/\s+/g, " ");
+
+
+    abraReplace[functionName] = newData;
+    phaserConfig[functionName] = newData;
+  
+    if(project) {
+    console.log("function name", functionName);
+
+
+    }
+
+
+    new Promise(async function (resolve, reject) {
+
+
+ 
+
+
+      var err = await fs.writeFileSync(`${dirPath}/abraConfig2.json`, JSON.stringify(abraReplace, undefined, 2))
+
+        if (err) reject(err)
+        else resolve(counter++)
+
+        if (counter === Object.keys(configJSON.abraFunctions).length - 1) {
+
+          if (abraReplace) {
+
+            configJSON = abraReplace;
+          }
+          let finalConfig = await fs.readFileSync(`${dirPath}/abraConfig2.json`);
+
+          var err = await fs.writeFileSync(`${dirPath}/abraConfig.json`, finalConfig);
+            if (!err) {
+
+              resolve();
+              var filePath = `${dirPath}/abraConfig2.json`;
+              fs.unlinkSync(filePath);
+
+              exports.PhaserConfig = phaserConfig;
+              exports.PhaserPath = phaserPath;
+              exports.Port = port;
+              exports.ConfigJSON = configJSON;
+              exports.Filelist = filelist;
+              exports.ConfigVariables = configVariables;
+            }
+       
+        }
+
+    });
+  
+}
+
+
 // Look at the config file within main Abra directory. You can put values you don't want people to see here.
 //Keep in mind if its a public value - Abra still has to push it to the DIV so phaser has access. Abra will not push anything within abraConfig to phaser. This is default abra configs.
 let configString = fs.readFileSync(`${dirPath}/abraConfig.json`);
@@ -57,6 +183,31 @@ if (configJSON.spritesheet) {
 
 }
 
+
+
+if(configJSON.projects && configJSON.projects.length !== 0) {
+
+      
+
+  Object.keys(configJSON.projects).forEach(async key => {
+
+    var project = configJSON.projects[key];
+    if(project.functions)
+    Object.keys(project.functions).forEach(async funcKey => {
+
+      func = project.functions[funcKey];
+
+      
+      readFile(path.join(dirPath, `../functions/${key}/`, func), funcKey, key);
+
+
+
+    });
+    
+  });
+
+}
+
 if (configJSON.abraFunctions) {
 
   counter = 0
@@ -67,108 +218,10 @@ if (configJSON.abraFunctions) {
 
     let newData;
 
-    fs.readFile(path.join(dirPath, '../functions/', configJSON.abraFunctions[functionName]), "utf8", function (err, data) {
-      let configFile = fs.readFileSync(`${dirPath}/abraConfig.json`);
-      let fileObj = JSON.parse(configFile);
+    
+    readFile(path.join(dirPath, '../functions/', configJSON.abraFunctions[functionName]), functionName);
 
 
-      if(fileObj.projects) abraReplace.projects = fileObj.projects;
-
-      if (fileObj.jsonGenerator) abraReplace.jsonGenerator = fileObj.jsonGenerator;
-      
-
-
-      if (fileObj.blacklist) {
-        abraReplace.blacklist = fileObj.blacklist;
-      } else {
-        abraReplace.blacklist = [];
-      }
-
-
-      if (!fileObj.abraConfig) {
-        abraReplace.abraConfig = {
-          "phaserSpriteTypes": [
-            "png",
-            "jpg",
-            "jpeg"
-          ],
-          "phaserVideoTypes": [
-            "mp4",
-            "avi",
-            "webm"
-          ],
-          "phaserAudioTypes": [
-            "mp3",
-            "ogg",
-            "wav"
-          ],
-          "phaserPort": 1337,
-          "phaserPath": "assets/"
-        };
-
-      } else {
-        abraReplace.abraConfig = fileObj.abraConfig;
-      }
-
-      //put check logic here like we did above with the abraconfig.
-      abraReplace.abraFunctions = fileObj.abraFunctions;
-      // abraReplace.abraCreate = fileObj.abraCreate;
-
-      data = data.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
-      var lines = data.split('\n');
-      
-
-      for (var i = 0; i < lines.length; i++) {
-   //     lines[i] = lines[i].trim();
-        if(!lines[i].endsWith(';')){
-        
-          if(lines[i] !== ''.trim() && lines[i] !== "{" && !lines[i].endsWith('}') && !lines[i].endsWith(')'))
-          lines[i] = lines[i] + ';';
-        }
-      }
-
-      data = lines.join(' ');
-      console.log(data);
-      newData = data.replace(/\s+/g, " ");
-
-
-      abraReplace[functionName] = newData;
-      phaserConfig[functionName] = newData;
-
-
-      new Promise(function (resolve, reject) {
-        fs.writeFile(`${dirPath}/abraConfig2.json`, JSON.stringify(abraReplace, undefined, 2), (callback, err) => {
-
-          if (err) reject(err)
-          else resolve(counter++)
-
-          if (counter === Object.keys(configJSON.abraFunctions).length - 1) {
-
-            if (abraReplace) {
-
-              configJSON = abraReplace;
-            }
-            let finalConfig = fs.readFileSync(`${dirPath}/abraConfig2.json`);
-
-            fs.writeFile(`${dirPath}/abraConfig.json`, finalConfig, (callback, err) => {
-              if (!err) {
-
-                resolve();
-                var filePath = `${dirPath}/abraConfig2.json`;
-                fs.unlinkSync(filePath);
-
-                exports.PhaserConfig = phaserConfig;
-                exports.PhaserPath = phaserPath;
-                exports.Port = port;
-                exports.ConfigJSON = configJSON;
-                exports.Filelist = filelist;
-                exports.ConfigVariables = configVariables;
-              }
-            });
-          }
-        });
-      });
-    });
   }
 
 } else {
