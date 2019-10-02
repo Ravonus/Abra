@@ -86,11 +86,23 @@ async function readFile(mPath, functionName, project) {
     newData = data.replace(/\s+/g, " ");
 
 
+
     abraReplace[functionName] = newData;
-    phaserConfig[functionName] = newData;
+
+    if(!phaserConfig.functions) phaserConfig.functions = {};
+
   
     if(project) {
-    console.log("function name", functionName);
+
+      console.log("PROJECT ", project)
+
+      if(!phaserConfig.functions[project]) phaserConfig.functions[project] = {};
+      phaserConfig.functions[project][functionName] = newData;
+    
+
+    } else {
+      if(!phaserConfig.functions.abraFunctions) phaserConfig.functions.abraFunctions = {};
+      phaserConfig.functions.abraFunctions[functionName] = newData;
 
 
     }
@@ -195,10 +207,10 @@ if(configJSON.projects && configJSON.projects.length !== 0) {
     if(project.functions)
     Object.keys(project.functions).forEach(async funcKey => {
 
-      func = project.functions[funcKey];
+      funcName = project.functions[funcKey];
 
       
-      readFile(path.join(dirPath, `../functions/${key}/`, func), funcKey, key);
+      readFile(path.join(dirPath, `../functions/${key}/`, funcName), funcKey, key);
 
 
 

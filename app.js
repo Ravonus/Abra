@@ -30,20 +30,12 @@ let callbackPhaserConfig = (callback) => {
 
   if (config.PhaserConfig) {
 
-    console.log(config.ConfigJSON.projects)
-
-    if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0) 
-    lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
-   
-    
-
-
+    if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0)
+      lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
 
     if (config.PhaserConfig['assets']) {
       delete config.PhaserConfig['assets'].spritesheet;
     }
-
-
 
     app.set('view engine', 'hbs');
 
@@ -62,49 +54,56 @@ let callbackPhaserConfig = (callback) => {
       next();
     });
 
-    if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0) 
-    gameRoutes('/', 'index.hbs', config.Filelist, config.PhaserConfig);
- 
-  
-  else {
+    var functionConfigs = config.PhaserConfig.functions;
+
+    delete config.PhaserConfig.functions;
+
+    if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0) {
 
 
-    var keys = Object.keys(config.ConfigJSON.projects);
+      Object.keys(functionConfigs).forEach(key => {
+        var functions = functionConfigs[key];
+        config.PhaserConfig = Object.assign(config.PhaserConfig, functions);
+      });
+
+      gameRoutes('/', 'index.hbs', config.Filelist, config.PhaserConfig);
+
+    }
 
 
-    keys.forEach(async (key, index) => {
-      
+    else {
 
-      config.Filelist = [];
- 
-      var project = config.ConfigJSON.projects[key];
-      console.log(config.PhaserConfig.projects)
-      var lista = await lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist, project.name ? project.name : key);
+      var keys = Object.keys(config.ConfigJSON.projects);
 
-     
+      keys.forEach(async (key, index) => {
 
-      gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', lista, config.PhaserConfig);
-      
-      
-    })
+        config.Filelist = [];
 
-  }
+        var project = config.ConfigJSON.projects[key];
 
-  if (Object.keys(config.ConfigVariables.variables).length !== 0) {
+        var lista = await lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist, project.name ? project.name : key);
 
-    config.PhaserConfig = replacer.ReplaceAll(config.PhaserConfig, config.ConfigVariables.variables);
+        gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', lista, Object.assign(config.PhaserConfig, functionConfigs.abraFunctions, functionConfigs[key]));
 
-    // console.log(config.PhaserConfig)
-    config.PhaserConfig = JSON.parse(config.PhaserConfig);
+      });
 
-    //  console.log(config.PhaserConfig)
-  }
+    }
+
+    if (Object.keys(config.ConfigVariables.variables).length !== 0) {
+
+      config.PhaserConfig = replacer.ReplaceAll(config.PhaserConfig, config.ConfigVariables.variables);
+
+
+      config.PhaserConfig = JSON.parse(config.PhaserConfig);
+
+
+    }
 
     app.get('/test', (req, res) => {
 
       res.send('ok', 200);
-      // console.log(io.sockets.to().sockets);
-      console.log(io.sockets.emit('grow', 'test'))
+
+
 
     });
 
