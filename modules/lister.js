@@ -39,11 +39,6 @@ const listFiles = async function (dir, filelist, project) {
     }
     else if (file !== '.DS_Store' && fs.statSync(dir + '/' + file).isDirectory() && project !== file) {
 
-
-
-
-
-      console.log('RETRUN' + config.Filelist)
    //   return;
     }
     else {

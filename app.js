@@ -16,22 +16,42 @@ const version = "0.1.5-beta"
 let counter = 0;
 
 
-function gameRoutes(path, page, fileList, config) {
+function gameRoutes(path, page, fileList, config, project) {
 
   app.get(path, (req, res) => {
 
-    res.render(page, { img: JSON.stringify(fileList), config: JSON.stringify(config) });
+    res.render(page, { img: JSON.stringify(fileList), config: JSON.stringify(config), project});
 
   });
 
 }
 
-let callbackPhaserConfig = (callback) => {
+let callbackPhaserConfig = async (callback) => {
 
-  if (config.PhaserConfig) {
 
-    if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0)
-      lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
+  
+
+  if (config.PhaserConfig && Object.keys(config.PhaserConfig).length !== 0 && config.PhaserConfig.functions.abraFunctions) {
+
+
+    
+
+
+
+    var functionConfigs = JSON.parse(JSON.stringify(config.PhaserConfig.functions));
+
+    delete config.PhaserConfig.functions;
+
+
+    
+
+
+
+
+  //  console.log(multiConfig);
+
+    // if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0)
+    //   await lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
 
     if (config.PhaserConfig['assets']) {
       delete config.PhaserConfig['assets'].spritesheet;
@@ -54,24 +74,26 @@ let callbackPhaserConfig = (callback) => {
       next();
     });
 
-    var functionConfigs = config.PhaserConfig.functions;
 
-    delete config.PhaserConfig.functions;
+
+    
 
     if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0) {
 
 
       Object.keys(functionConfigs).forEach(key => {
         var functions = functionConfigs[key];
-        config.PhaserConfig = Object.assign(config.PhaserConfig, functions);
+        var configs = Object.assign(config.PhaserConfig, functions);
       });
 
-      gameRoutes('/', 'index.hbs', config.Filelist, config.PhaserConfig);
+      gameRoutes('/', 'index.hbs', config.Filelist, configs);
 
     }
 
 
     else {
+
+
 
       var keys = Object.keys(config.ConfigJSON.projects);
 
@@ -81,9 +103,13 @@ let callbackPhaserConfig = (callback) => {
 
         var project = config.ConfigJSON.projects[key];
 
-        var lista = await lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist, project.name ? project.name : key);
+        var list = await lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist, project.name ? project.name : key);
 
-        gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', lista, Object.assign(config.PhaserConfig, functionConfigs.abraFunctions, functionConfigs[key]));
+
+        //gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', list, Object.assign(config.PhaserConfig, functionConfigs.abraFunctions, functionConfigs[key]), key);
+
+        //TODO: Might need to fix this right now just assigning assets and spritesheets into push, but there might be more objects.
+        gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', list, Object.assign({assets:config.PhaserConfig.assets, spritesheet:config.PhaserConfig.spritesheet}, functionConfigs.abraFunctions, functionConfigs[key]), key);
 
       });
 
@@ -113,8 +139,8 @@ let callbackPhaserConfig = (callback) => {
     });
 
   } else {
-    setTimeout(function () {
-      callbackPhaserConfig(callback);
+    setTimeout(async function () {
+      await callbackPhaserConfig(callback);
     }, 0);
   }
 }
