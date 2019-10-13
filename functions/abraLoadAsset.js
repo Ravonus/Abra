@@ -1,8 +1,13 @@
 {
 
+
+
+
   var phaserConfig = document.getElementById('phaserConfig').getAttribute('value');
   document.getElementById('phaserConfig').remove();
   var listFiles = document.getElementById('listFiles').getAttribute('value');
+
+ 
   
   this.phaserConfig = JSON.parse(phaserConfig);
   Phaser.phaserConfig = JSON.parse(phaserConfig);
@@ -19,6 +24,8 @@
   var gameScene = this.game.scene.keys.GameScene;
 
   game.assetList.forEach(function (file) {
+
+  
     
     if (Array.isArray(file)) {
      
@@ -39,6 +46,9 @@
         lastFile = newFile;
       });
 
+ 
+      console.log("TEST " , name);
+
       if (filename == name + '.mp3' || filename == name + '.ogg' || filename == name + '.wav') {
         scene.load.audio(lastDir + name, newFileArray);
       } else if (game.phaserConfig['bitmap'] && game.phaserConfig['bitmap'].join().includes(name) && !this.game.phaserConfig.spritesheet[name]) {
@@ -49,7 +59,11 @@
         scene.load.atlas(lastDir + name, file[0], file[1], Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
       } else if (file[1].toLowerCase().includes('.json')) {
         scene.load.tilemap(lastDir + name, file[1], null, Phaser.Tilemap.TILED_JSON);
-        scene.load.image(lastDir + name + '-tiles', file[0]);
+        scene.load.image(lastDir + name + '-tiles', file[0]); }
+        else if (file[1].toLowerCase().includes('.html')) {
+          console.log("HTML ", file[1]);
+          scene.load.html(lastDir + name, file[1]);
+        
       } else if (file[1].toLowerCase().includes('.csv')) {
         scene.load.tilemap(lastDir + name, file[1], null, Phaser.Tilemap.CSV);
         scene.load.image(lastDir + name + '-tiles', file[0]);
@@ -75,6 +89,10 @@
         scene.load.spritesheet(lastDir + name, file, {"frameHeight": game.phaserConfig.spritesheet[name].height, "frameWidth": game.phaserConfig.spritesheet[name].width, "startFrame": 0, "endFrame": game.phaserConfig.spritesheet[name].frames});
       } else if (filename == name + '.mp3' || filename == name + '.ogg' || filename == name + '.wav') {
         scene.load.audio(lastDir + name, file);
+
+      }else if (filename == name + '.html') {
+        scene.load.html(lastDir + name, file);
+
       } else if (filename.toLowerCase().includes('.json')) {
 
         scene.load.json(name, file);

@@ -18,5 +18,36 @@
     "height":451,
     "width":456,
     "frames": 1
+  },
+  "greenButton": {
+    "height":324,
+    "width":782,
+    "frames":2
+  },
+  "newButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "joinButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "settingsButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "enterButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "closeButton": {
+    "height":204,
+    "width":238,
+    "frames":2
   }
+
 }

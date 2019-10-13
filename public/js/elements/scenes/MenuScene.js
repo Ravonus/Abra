@@ -9,18 +9,38 @@ var MenuScene = {
 
     //Function.apply(null, ['spriteAttributes','mainScene',  Phaser.phaserConfig.abraCreate])(Phaser.phaserConfig.assets.menuSprites, this.scene.key);
    // this.scene.start('GameScene');
-    var playButton = this.scene.scene.add.sprite(300, 200, 'play').setInteractive();
+    var playButton = this.scene.scene.add.sprite(600, 200, 'greenButton').setInteractive();
 
     // var walk = mummy.anims.add('walk');
     
-  //   this.scene.scene.anims.create({
-  //     key: 'playButton',
-  //     frames: this.scene.scene.anims.generateFrameNumbers('play', { start: 0, end: 2 }),
-  //     frameRate: 60,
-  //     repeat: -1
-  // });
+    this.scene.scene.anims.create({
+      key: 'buttonOff',
+      frames: this.scene.scene.anims.generateFrameNumbers('greenButton', { start: 0, end:0 }),
+      frameRate: 60
+  });
 
-  //playButton.anims.play('playButton', true);
+  this.scene.scene.anims.create({
+    key: 'buttonOn',
+    frames: this.scene.scene.anims.generateFrameNumbers('greenButton', { start: 1 , end: 1}),
+    frameRate: 60
+});
+
+  playButton.on('pointerover', function () {
+
+    console.log("ASD")
+    console.log(playButton.anims)
+    playButton.anims.play('buttonOn');
+
+});
+
+playButton.on('pointerout', function () {
+
+  playButton.anims.play('buttonOff');
+
+});
+
+
+ // playButton.anims.play('playButton', 1);
 
 
   playButton.on('pointerdown', function (pointer) {

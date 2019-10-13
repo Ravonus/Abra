@@ -1,18 +1,23 @@
 var config = {
-  type: Phaser.CANVAS,
-  parent: 'Abra Auto Loader Alpha 0.1',
-  width: 1920,
-  height: 1080,
-  autoResize: true,
-  fps: 60,
-  gameVersion: 0.1,
-  gameURL: "https://technomancyit.com"
+  type: Phaser.WEBGL,
+  width: 640,
+  height: 480,
+  backgroundColor: '#bfcc00'
 };
 
 var cameras = {};
 var sprites = {};
 var transform = {};
 var groups = {};
+
+var snake;
+var food;
+var cursors;
+
+var UP = 0;
+var DOWN = 1;
+var LEFT = 2;
+var RIGHT = 3;
 
 
 var game = new Phaser.Game(config);
