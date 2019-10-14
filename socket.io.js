@@ -22,7 +22,7 @@ module.exports = {
 
       client.on('deleteDot', function (data) {
 
-        console.log(data);
+
 
         client.broadcast.emit('deleteDot', data);
         client.emit('deleteDot', data);
@@ -31,8 +31,6 @@ module.exports = {
 
 
       client.on('grow', function (data) {
-
-        console.log(data);
 
         client.broadcast.emit('grow', data);
         client.emit('grow', data);

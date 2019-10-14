@@ -5,7 +5,6 @@ var MenuScene = {
 
   create: function() {
 
-    console.log("RAN");
 
     //Function.apply(null, ['spriteAttributes','mainScene',  Phaser.phaserConfig.abraCreate])(Phaser.phaserConfig.assets.menuSprites, this.scene.key);
    // this.scene.start('GameScene');
@@ -27,8 +26,6 @@ var MenuScene = {
 
   playButton.on('pointerover', function () {
 
-    console.log("ASD")
-    console.log(playButton.anims)
     playButton.anims.play('buttonOn');
 
 });

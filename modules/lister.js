@@ -111,8 +111,7 @@ const listFiles = async function (dir, filelist, project) {
             }
             let second = Object.keys(newObj)[i];
             config.PhaserConfig[objName][first] = newObj
-            console.log("AF")
-            console.log(newObj);
+
           }
 
           if (configJSON.spritesheet) {

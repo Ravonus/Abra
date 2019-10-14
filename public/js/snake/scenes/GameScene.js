@@ -92,7 +92,7 @@ var GameScene = {
               if (this.direction === UP || this.direction === DOWN)
               {
                
-                console.log("RIGHT")
+
                   this.heading = RIGHT;
                   this.head.setAngle(360);
                   console.lo
@@ -160,7 +160,6 @@ var GameScene = {
   
               if (hitBody)
               {
-                  console.log('dead');
   
                   this.alive = false;
   

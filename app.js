@@ -11,7 +11,8 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 const replacer = require('./modules/replacer.js');
 const lister = require('./modules/lister');
-const dirPath = __dirname;
+const dirPath = __dirname
+const pluginLoader = require('./modules/pluginLoader');
 const version = "0.1.5-beta"
 let counter = 0;
 
@@ -28,27 +29,11 @@ function gameRoutes(path, page, fileList, config, project) {
 
 let callbackPhaserConfig = async (callback) => {
 
-
-  
-
   if (config.PhaserConfig && Object.keys(config.PhaserConfig).length !== 0 && config.PhaserConfig.functions.abraFunctions) {
-
-
-    
-
-
 
     var functionConfigs = JSON.parse(JSON.stringify(config.PhaserConfig.functions));
 
     delete config.PhaserConfig.functions;
-
-
-    
-
-
-
-
-  //  console.log(multiConfig);
 
     // if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0)
     //   await lister.ListFiles(`${dirPath}/public/${config.PhaserPath}`, config.Filelist);
@@ -138,6 +123,11 @@ let callbackPhaserConfig = async (callback) => {
       console.log(`Abra  `.cyan.bold.underline + `${version}`.yellow.bold + `\n\nServer started on port`.cyan.bold.underline + `:  `.green.bold + `${config.Port}`.yellow.bold);
     });
 
+
+    //load plugins here
+
+    pluginLoader();
+
   } else {
     setTimeout(async function () {
       await callbackPhaserConfig(callback);
@@ -148,3 +138,5 @@ callbackPhaserConfig();
 
 //sockets
 require('./socket.io').socket(io);
+
+module.exports = {router, server, app}

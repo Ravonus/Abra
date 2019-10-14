@@ -46,8 +46,6 @@
         lastFile = newFile;
       });
 
- 
-      console.log("TEST " , name);
 
       if (filename == name + '.mp3' || filename == name + '.ogg' || filename == name + '.wav') {
         scene.load.audio(lastDir + name, newFileArray);
@@ -61,7 +59,6 @@
         scene.load.tilemap(lastDir + name, file[1], null, Phaser.Tilemap.TILED_JSON);
         scene.load.image(lastDir + name + '-tiles', file[0]); }
         else if (file[1].toLowerCase().includes('.html')) {
-          console.log("HTML ", file[1]);
           scene.load.html(lastDir + name, file[1]);
         
       } else if (file[1].toLowerCase().includes('.csv')) {

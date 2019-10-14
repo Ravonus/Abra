@@ -6,7 +6,6 @@ game.input.on('gameobjectdown', function (pointer, gameObject) {
 
   } else if(inputs.shift.isDown && inputs.ctrl.isUp  && gameObject.name === Phaser.phaserConfig.socketBalls.name) {
 
-    console.log("RAN")
     socket.emits.grow({obj:gameObject.sprite3d, action:'grow'});
 
   } else if(inputs.ctrl.isDown && gameObject.name === Phaser.phaserConfig.socketBalls.name) {

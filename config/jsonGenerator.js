@@ -316,7 +316,6 @@ function listDir(callback) {
 
                       //done with first foreach
                       if (lastAddArray) {
-                            console.log(lastAddArray);
                    //     fileAddArray2 = Object.assign(fileAddArray, lastAddArray);
                       }
 
@@ -328,7 +327,6 @@ function listDir(callback) {
                 if (!attributeArray) callbackArray();
                 // console.log(attributeArray);
               }
-              console.log(fileAddArray);
 
             });
 

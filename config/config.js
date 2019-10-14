@@ -85,16 +85,11 @@ async function readFile(mPath, functionName, project) {
     data = lines.join(' ');
     newData = data.replace(/\s+/g, " ");
 
-
-
     abraReplace[functionName] = newData;
 
     if(!phaserConfig.functions) phaserConfig.functions = {};
 
-  
     if(project) {
-
-      console.log("PROJECT ", project)
 
       if(!phaserConfig.functions[project]) phaserConfig.functions[project] = {};
       phaserConfig.functions[project][functionName] = newData;
