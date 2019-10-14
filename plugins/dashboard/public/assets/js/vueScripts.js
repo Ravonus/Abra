@@ -5,11 +5,11 @@ var main = new Vue({
   watch: {
 
   },
-  methods:{terd:function(txt) {
-    alert(txt);
-  },
-testMethod:function(txt) {
+  methods:{testMethod:function(txt) {
     console.log(txt);
+  },
+navClick:function(e) {
+      sidenav.navClick(e);
   },
 }
 });var sidenav = new Vue({
@@ -19,11 +19,10 @@ testMethod:function(txt) {
   watch: {
 
   },
-  methods:{terd:function(txt) {
-    alert(txt);
-  },
-testMethod:function(txt) {
-    console.log(txt);
+  methods:{navClick:function(e) {
+
+    console.log(e);
+    
   },
 }
 });

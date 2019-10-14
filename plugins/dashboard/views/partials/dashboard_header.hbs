@@ -10,10 +10,10 @@
           {{#each projectNames as |name i|}}
           <li class="nav-item">
             {{#if @first}}
-            <a class="nav-link mb-sm-3 mb-md-0 active" id="tab-{{name}}" data-toggle="tab" href="#"
+            <a @click="projectChange" class="nav-link mb-sm-3 mb-md-0 active" id="tab-{{name}}" data-toggle="tab" href="#"
               role="tab" aria-controls="tabs-{{name}}" aria-selected="true">{{name}}</a>
             {{else}}
-            <a class="nav-link mb-sm-3 mb-md-0" id="tab-{{name}}" data-toggle="tab" href="#"
+            <a @click="projectChange" class="nav-link mb-sm-3 mb-md-0" id="tab-{{name}}" data-toggle="tab" href="#"
               role="tab" aria-controls="tabs-{{name}}" aria-selected="false">{{name}}</a>
             {{/if}}
           </li>

@@ -3,15 +3,25 @@
 {{> dashboard_head}}
 
 <body class="">
-    {{> dashboard_sidebar}}
+  {{> dashboard_sidebar}}
   <div id="main" class="main-content">
-  
+
     {{> dashboard_nav}}
     {{> dashboard_header}}
     <div class="container-fluid mt--7">
-      <div class="row">
+
+      <div v-if="nav && nav.page === 'Dashboard'" class="row">
+
+
 
       </div>
+
+      <div v-else-if="nav && nav.page === 'Assets'" class="row">
+
+        {{> dashboard_assets }}
+
+      </div>
+
       {{> dashboard_footer}}
     </div>
   </div>

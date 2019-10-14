@@ -13,6 +13,7 @@ const replacer = require('./modules/replacer.js');
 const lister = require('./modules/lister');
 const dirPath = __dirname
 const pluginLoader = require('./modules/pluginLoader');
+const phaserUpdate = require('./modules/phaserUpdate');
 const version = "0.1.5-beta"
 let counter = 0;
 
@@ -21,7 +22,7 @@ function gameRoutes(path, page, fileList, config, project) {
 
   app.get(path, (req, res) => {
 
-    res.render(page, { img: JSON.stringify(fileList), config: JSON.stringify(config), project});
+    res.render(page, { img: JSON.stringify(fileList), config: JSON.stringify(config), project });
 
   });
 
@@ -61,7 +62,7 @@ let callbackPhaserConfig = async (callback) => {
 
 
 
-    
+
 
     if (!config.ConfigJSON.projects || Object.keys(config.ConfigJSON.projects).length === 0) {
 
@@ -94,7 +95,7 @@ let callbackPhaserConfig = async (callback) => {
         //gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', list, Object.assign(config.PhaserConfig, functionConfigs.abraFunctions, functionConfigs[key]), key);
 
         //TODO: Might need to fix this right now just assigning assets and spritesheets into push, but there might be more objects.
-        gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', list, Object.assign({assets:config.PhaserConfig.assets, spritesheet:config.PhaserConfig.spritesheet}, functionConfigs.abraFunctions, functionConfigs[key]), key);
+        gameRoutes(project.path ? project.path : `/${key}`, project.page ? project.page : 'index.hbs', list, Object.assign({ assets: config.PhaserConfig.assets, spritesheet: config.PhaserConfig.spritesheet }, functionConfigs.abraFunctions, functionConfigs[key]), key);
 
       });
 
@@ -103,10 +104,7 @@ let callbackPhaserConfig = async (callback) => {
     if (Object.keys(config.ConfigVariables.variables).length !== 0) {
 
       config.PhaserConfig = replacer.ReplaceAll(config.PhaserConfig, config.ConfigVariables.variables);
-
-
       config.PhaserConfig = JSON.parse(config.PhaserConfig);
-
 
     }
 
@@ -114,19 +112,22 @@ let callbackPhaserConfig = async (callback) => {
 
       res.send('ok', 200);
 
-
-
     });
 
+    if (config.ConfigJSON.abraConfig && config.ConfigJSON.abraConfig.version && config.ConfigJSON.abraConfig.version === 'current')
+      await phaserUpdate();
+    else if (config.ConfigJSON.abraConfig && config.ConfigJSON.abraConfig.version)
+      await phaserUpdate(config.ConfigJSON.abraConfig.version);
+
+    pluginLoader();
 
     server.listen(config.Port, () => {
       console.log(`Abra  `.cyan.bold.underline + `${version}`.yellow.bold + `\n\nServer started on port`.cyan.bold.underline + `:  `.green.bold + `${config.Port}`.yellow.bold);
     });
 
-
     //load plugins here
 
-    pluginLoader();
+    console.log(config.ConfigJSON.abraConfig)
 
   } else {
     setTimeout(async function () {
@@ -139,4 +140,4 @@ callbackPhaserConfig();
 //sockets
 require('./socket.io').socket(io);
 
-module.exports = {router, server, app}
+module.exports = { router, server, app }

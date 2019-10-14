@@ -9,5 +9,12 @@ var main = new Vue({
   },
   methods: {
 
+  },
+
+  created: function() {
+    Vue.nextTick( function() {
+      var projectName = $('#tabs-text').children().children()[0].id;
+      main.projectName = projectName;
+    });
   }
 });

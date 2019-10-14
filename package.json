@@ -6,13 +6,14 @@
   "dependencies": {
     "expr-eval": "^1.2.1",
     "express": "^4.16.2",
-    "hbs": "^4.0.1",
+    "hbs": "^4.0.6",
     "nodemon": "^1.14.11",
-    "phaser": "^3.19.0",
+    "phaser": "^3.20.0",
     "phaser3-project-template": "^1.0.9",
     "prompt": "^1.0.0",
     "socket.io": "^2.1.1",
-    "sort-object": "^3.0.2"
+    "sort-object": "^3.0.3",
+    "undefined": "^0.1.0"
   },
   "devDependencies": {},
   "scripts": {

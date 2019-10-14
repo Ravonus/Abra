@@ -1,0 +1,5 @@
+data = {
+  nav: {
+    page:'Dashboard'
+  }
+}

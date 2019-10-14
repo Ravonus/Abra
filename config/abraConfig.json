@@ -70,7 +70,8 @@
     ],
     "phaserPort": 1339,
     "phaserPath": "assets/",
-    "pluginPath": "plugins/"
+    "pluginPath": "plugins/",
+    "version": "current"
   },
   "abraFunctions": {
     "abraLoad": "abraLoadAsset.js",
