@@ -1,5 +1,0 @@
-data = {
-  nav: {
-    page:'Dashboard'
-  }
-}
