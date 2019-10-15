@@ -1,6 +1,6 @@
 {
   "verbose": false,
-  "ignore": ["Config/abraConfig.json", "Config/abraConfig2.json", "Logs/server.log"],
+  "ignore": ["Plugins/dashboard/public/assets/js/plugins/vue/vueScripts.js", "vueScripts.js", "Public/js/phaser-arcade-physics.min.js", "Public/js/phaser.js", "Public/js/sockets.js", "Node_module/", "Config/abraConfig.json", "Config/abraConfig2.json", "Logs/server.log"],
   "ext": "*"
   
 }

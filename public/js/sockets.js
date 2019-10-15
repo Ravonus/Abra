@@ -1,16 +1,24 @@
 //var socket = io('http://64.37.22.151:1339/');
 var socket = io('http://localhost:1339/');
 var scene;
+var refresh;
 
+var clientRestart = true;
 
 socket.emits = {};
 
 socket.on('connected', function (data) {
 
+  if(refresh) location.reload();
+ 
+
+  
   // console.log(this);
   //console.log(game.scene.keys.GameState)
   scene = game.scene.keys.GameScene;
 
+  if(clientRestart)
+  socket.on('disconnect', ()=> refresh = true);
 
   //   function cb() {
   //   if(!scene['19-qbox']) {
@@ -29,6 +37,8 @@ socket.on('connected', function (data) {
 
 
 });
+
+
 
 
 // socket.on('grow', function (data) {

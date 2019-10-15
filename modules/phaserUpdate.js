@@ -9,7 +9,9 @@ let phaserUpdate = async function (version) {
 
     var dir = path.join(__dirname, '../');
 
-    let child = exec(`npm i --prefix ${dir} phaser ` + version,
+    console.log('RUNNING UPDATE');
+
+    let child = exec(` npm i phaser ` + version,
       async function (error, stdout, stderr) {
 
         await fs.copyFileSync(path.join(dir, '/node_modules/phaser/dist/phaser.js'), path.join(dir, '/public/js/phaser.js'));

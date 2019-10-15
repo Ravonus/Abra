@@ -14,8 +14,9 @@ const lister = require('./modules/lister');
 const dirPath = __dirname
 const pluginLoader = require('./modules/pluginLoader');
 const phaserUpdate = require('./modules/phaserUpdate');
-const version = "0.1.5-beta"
-let counter = 0;
+const version = "0.1.5-beta";
+let counter = 0,
+firstRun = false;
 
 
 function gameRoutes(path, page, fileList, config, project) {
@@ -114,11 +115,24 @@ let callbackPhaserConfig = async (callback) => {
 
     });
 
-    if (config.ConfigJSON.abraConfig && config.ConfigJSON.abraConfig.version && config.ConfigJSON.abraConfig.version === 'current')
+    if(process.argv[2] && !process.argv[2].includes('nodemon'))
+    if (config.ConfigJSON.abraConfig && config.ConfigJSON.abraConfig.version && config.ConfigJSON.abraConfig.version === 'current') 
       await phaserUpdate();
-    else if (config.ConfigJSON.abraConfig && config.ConfigJSON.abraConfig.version)
+    
+    else if (config.ConfigJSON.abraConfig && config.ConfigJSON.abraConfig.version) 
       await phaserUpdate(config.ConfigJSON.abraConfig.version);
 
+    console.log(config.ConfigJSON.abraConfig.clientRestart)
+    
+
+      var file = await fs.readFileSync(`${__dirname}/public/js/sockets.js`, 'utf8');
+
+      file = config.ConfigJSON.abraConfig.clientRestart ? file.replace(/var clientRestart?[^;]+;/, 'var clientRestart = true;') : file.replace(/var clientRestart?[^;]+;/, 'var clientRestart;')
+
+      await fs.writeFileSync(`${__dirname}/public/js/sockets.js`, file)
+
+    
+    
     pluginLoader();
 
     server.listen(config.Port, () => {

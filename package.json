@@ -8,7 +8,7 @@
     "express": "^4.16.2",
     "hbs": "^4.0.6",
     "nodemon": "^1.14.11",
-    "phaser": "^3.20.0",
+    "phaser": "^3.20.1",
     "phaser3-project-template": "^1.0.9",
     "prompt": "^1.0.0",
     "socket.io": "^2.1.1",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "watch": "nodemon app.js --config config/nodemon.json",
+    "watch": "nodemon 'app.js nodemon' --config config/nodemon.json",
     "start": "node app.js"
   },
   "repository": {
