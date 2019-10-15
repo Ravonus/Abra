@@ -87,7 +87,7 @@ You can also use Abra to extend configration. Create sprites easily, and hide th
 <p>Just download files. Via zip,clone,etc. CD into directory. Run npm i. Once all modules downloaded. Then run npm start<p>
 <p>You can change port and other server configurations within the main config.json. This will be in the first Directory. </p>
 
-<h1>How to?</h1>
+<h1>How to? </h1>
 <p>Using Abra is simple and easy. Abra autoload simply needs to be given a folder to look at. By default its set to /public/assets. This can be changed in the config file though. </p>
 <p>Once Abra has this. Autoloading is ready to go. Abra will then teleport all the assets He finds into phaser. You can verify this by looking at your network tab and seeing sprites load </p>
 <p>Abra does need a built in command in order to preload - This is already in the basic Phaser template that comes with Abra </p>
