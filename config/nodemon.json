@@ -1,0 +1,6 @@
+{
+  "verbose": false,
+  "ignore": ["Config/abraConfig.json", "Config/abraConfig2.json", "Logs/server.log"],
+  "ext": "*"
+  
+}

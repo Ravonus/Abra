@@ -1,0 +1,53 @@
+{
+  "variables": {
+    "{qboxHeight}": 128,
+    "{qboxWidth}": 64,
+    "{Range WeaponHeight}": 128,
+    "{Range WeaponWidth}": 64,
+    "{seacreatures_jsonHeight}": 128,
+    "{seacreatures_jsonWidth}": 64,
+    "{spinner2Height}": 128,
+    "{spinner2Width}": 64
+  },
+  "play": {
+    "height":180,
+    "width":310,
+    "frames": 2
+  },
+  "gridDot": {
+    "height":451,
+    "width":456,
+    "frames": 1
+  },
+  "greenButton": {
+    "height":324,
+    "width":782,
+    "frames":2
+  },
+  "newButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "joinButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "settingsButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "enterButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
+  "closeButton": {
+    "height":204,
+    "width":238,
+    "frames":2
+  }
+
+}

@@ -1,0 +1,34 @@
+{
+  "name": "abra",
+  "version": "0.1.5-beta",
+  "description": "Phaser/Node Game",
+  "main": "app.js",
+  "dependencies": {
+    "expr-eval": "^1.2.1",
+    "express": "^4.16.2",
+    "hbs": "^4.0.6",
+    "nodemon": "^1.14.11",
+    "phaser": "^3.20.0",
+    "phaser3-project-template": "^1.0.9",
+    "prompt": "^1.0.0",
+    "socket.io": "^2.1.1",
+    "sort-object": "^3.0.3",
+    "undefined": "^0.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "watch": "nodemon app.js --config config/nodemon.json",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ravonus/Abra"
+  },
+  "author": "Chad Koslovsky",
+  "email": "chad@technomancyIT.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ravonus/Abra/issues"
+  },
+  "homepage": "https://github.com/Ravonus/Abra#readme"
+}

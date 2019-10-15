@@ -1,0 +1,26 @@
+<!-- Header -->
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+        <ul class="nav nav-pills nav-fill flex-column flex-sm-row" id="tabs-text" role="tablist">
+
+          {{#each projectNames as |name i|}}
+          <li class="nav-item">
+            {{#if @first}}
+            <a @click="projectChange" class="nav-link mb-sm-3 mb-md-0 active" id="tab-{{name}}" data-toggle="tab" href="#"
+              role="tab" aria-controls="tabs-{{name}}" aria-selected="true">{{name}}</a>
+            {{else}}
+            <a @click="projectChange" class="nav-link mb-sm-3 mb-md-0" id="tab-{{name}}" data-toggle="tab" href="#"
+              role="tab" aria-controls="tabs-{{name}}" aria-selected="false">{{name}}</a>
+            {{/if}}
+          </li>
+          {{/each}}
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
