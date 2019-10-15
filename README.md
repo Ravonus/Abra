@@ -56,31 +56,40 @@ You can also use Abra to extend configration. Create sprites easily, and hide th
   <li>Auto Server restart on asset Changes - right now uses nodemon. Actual Socket.IO client updates could come in the future.(npm run watch) for current wach command.</li>
   <li>Auto Array building</li>
   <li>Custom Functions</li>
+  <li>Socket Functionality - To support multiplayer.</li>
+  <li>Gui Dashboard</li>
+  <li>Phaser auto updater</li>
+  <li>Multi-game support for one server</li>
+</ul>
+
+<h1>Working on</h1>
+<ul>
+<li>GUI Dashboard. To add new projects. Or check out or edit certain aspects.</li>
+<li>JSON Config Generator (Working on)</li>
+<li>Better configurations (Working on)</li>
+<li>Better Math functionality</li>
+<li>Plugin system</li>
+<li>Socket.io connections - Create custom methods to send custom abra data specific to the user. Example could use a login system and actually let users upload their own images. You would not have to</li> <li>change phasers logic at all. Just socket.io check that would change the object to said users asset folder.</li>
 </ul>
 
  <h1>To Add</h1>
  <ul>
-<li>JSON Config Generator (Working on)</li>
-<li>Better configurations (Working on)</li>
-<li>Better Math functionality</li>
+ <li>Scratch Coding</li>
 <li>More pre built phaser extended functions</li>
 <li>API Method (To use with current web servers, instead of using Abra to host game as well)</li>
 <li>Game example that shows full functionality of Abra.</li>
-<li>Automatic Phaser update/add</li>
 <li>Stand alone node module</li>
-<li>Multi-game support for one server</li>
 <li>More configurations. Example - set file types for phaser - even down to the specific asset.</li>
-<li>Socket.io connections - Create custom methods to send custom abra data specific to the user. Example could use a login system and actually let users upload their own images. You would not have to</li> <li>change phasers logic at all. Just socket.io check that would change the object to said users asset folder.</li>
 <li>Easy test method. Test Abra and make sure its grabbing all the configurations,etc. So you don't have to take time troubleshooting the client. Abra will tell you what files are being served/blacklisted/configs you have/etc.</li>
 </ul>
 
 <h1>Install Instructions</h1>
-<p>Simply just download files. Via zip,clone,etc. CD into directory. Run npm i. Once all modules downloaded. Simply run npm start<p>
+<p>Just download files. Via zip,clone,etc. CD into directory. Run npm i. Once all modules downloaded. Then run npm start<p>
 <p>You can change port and other server configurations within the main config.json. This will be in the first Directory. </p>
 
 <h1>How to?</h1>
 <p>Using Abra is simple and easy. Abra autoload simply needs to be given a folder to look at. By default its set to /public/assets. This can be changed in the config file though. </p>
-<p>Once Abra has this. Autoloading is ready to go. Abra will simply teleport all the assets He finds into phaser. You can verify this simply by looking at your network tab and seeing sprites load </p>
+<p>Once Abra has this. Autoloading is ready to go. Abra will then teleport all the assets He finds into phaser. You can verify this by looking at your network tab and seeing sprites load </p>
 <p>Abra does need a built in command in order to preload - This is already in the basic Phaser template that comes with Abra </p>
 
 ```javascript
