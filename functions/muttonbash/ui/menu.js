@@ -41,7 +41,6 @@ settingsButton.on('pointerover', function () {
 
 });
 
-
 newButton.on('pointerout', function () {
 
   newButton.anims.play('buttonOffNew');
@@ -66,9 +65,8 @@ newButton.on('pointerup', function (pointer) {
   characterName.visible = true;
 });
 
-
 joinButton.on('pointerup', function (pointer) {
 
   menu.visible = false;
-  lobby.visible = true;
+  joinGame.visible = true;
 });

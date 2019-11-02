@@ -6,9 +6,6 @@ var panel1_bar2 = game.add.sprite(680, 850, 'bar 2').setInteractive().setOrigin(
 var enterButton = game.add.sprite(750, 1150, 'enterButton').setInteractive().setOrigin(0).setScale(0.8, 0.7);
 var panel1_close = game.add.sprite(400, 1425, 'bar 1').setOrigin(0).setScale(0.9).setFlipY(true);
 
-
-
-
 game.anims.create({ key: 'buttonOffClose', frames: game.anims.generateFrameNumbers('closeButton', { start: 1, end: 1 }), frameRate: 60 });
 
 game.anims.create({ key: 'buttonOnClose', frames: game.anims.generateFrameNumbers('closeButton', { start: 0, end: 0 }), frameRate: 60 });
@@ -35,10 +32,15 @@ enterButton.on('pointerup', function () {
   var name = document.getElementById("nameField").value;
   var email = document.getElementById("emailField").value;
 
+  room = Math.random().toString(12).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+  socket.emits.joinGame({room:room, name:name, email:email});
 
+  roomText.setText(room);
+
+  lobby.visible = true;
+  characterName.visible = false;
 
 });
-
 
 characterName.visible = false;
 
