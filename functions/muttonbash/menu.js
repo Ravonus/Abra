@@ -65,3 +65,10 @@ newButton.on('pointerup', function (pointer) {
   menu.visible = false;
   characterName.visible = true;
 });
+
+
+joinButton.on('pointerup', function (pointer) {
+
+  menu.visible = false;
+  lobby.visible = true;
+});

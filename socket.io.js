@@ -37,6 +37,14 @@ module.exports = {
 
       });
 
+
+      client.on('joinGame', (data) => {
+
+        console.log("RAN");
+        console.log(data);
+
+      });
+
     });
 
   }

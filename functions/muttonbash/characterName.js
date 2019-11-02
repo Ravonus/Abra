@@ -22,19 +22,20 @@ closeButton.anims.play('buttonOffClose');
 enterButton.anims.play('buttonOffEnter');
 
 
-closeButton.on('pointerover', function () { closeButton.anims.play('buttonOnClose'); });
+closeButton.on('pointerover', function () { this.play('buttonOnClose'); });
 
-closeButton.on('pointerout', function () {
+closeButton.on('pointerout', function () {this.play('buttonOffClose'); });
 
-  closeButton.anims.play('buttonOffClose');
+enterButton.on('pointerover', function () { this.play('buttonOnEnter'); });
 
-});
+enterButton.on('pointerout', function () { this.play('buttonOffEnter'); });
 
-enterButton.on('pointerover', function () { enterButton.anims.play('buttonOnEnter'); });
+enterButton.on('pointerup', function () {
 
-enterButton.on('pointerout', function () {
+  var name = document.getElementById("nameField").value;
+  var email = document.getElementById("emailField").value;
 
-  enterButton.anims.play('buttonOffEnter');
+
 
 });
 
@@ -47,17 +48,6 @@ closeButton.on('pointerup', function (pointer) { menu.visible = true;
 
 var nameInput = game.add.dom(1134, 645).createFromCache('name');
 var emailInput = game.add.dom(1134, 945).createFromCache('email');
-
-
-nameInput.addListener('click');
-
-nameInput.on('click', function (event) { console.log("CLICK");});
-
-emailInput.addListener('click');
-
-emailInput.on('click', function (event) { console.log("CLICK");});
-
-
 
 characterName.add([panel1_start, panel1_bar1, enterButton, panel1_bar2, emailInput, closeButton, nameInput, panel1_close]);
 

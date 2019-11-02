@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require("path");
+const asyncForEach = require('../modules/asyncForEach');
 let phaserPath, port, x, firstValue, superKey;
 let newMath = 0;
 let filelist = [];
@@ -17,7 +18,21 @@ configVariables.variables = new Object();
 async function readFile(mPath, functionName, project) {
 
 
- 
+  if(fs.lstatSync(mPath).isDirectory()) {
+
+    var functions = fs.readdirSync(mPath);
+
+    console.log(functions);
+
+    await asyncForEach(functions, async funcName => {
+      await readFile(`${mPath}/${funcName}`, funcName.slice(0, -3), project);
+    });
+
+  }
+
+  
+
+  else {
 
   var data = await fs.readFileSync(mPath , "utf8");
 
@@ -140,6 +155,8 @@ async function readFile(mPath, functionName, project) {
         }
 
     });
+
+  }
   
 }
 
@@ -242,4 +259,5 @@ if (configJSON.abraFunctions) {
   exports.Filelist = filelist;
   exports.ConfigVariables = configVariables;
 }
+
 

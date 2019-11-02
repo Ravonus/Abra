@@ -65,8 +65,6 @@ socket.setSocket = function(name, func) {
 
   socket.emits[name] = function (args) { socket.emit(name, args) };
 
-  console.log(socket.emits)
-
   socket.on(name, eval(func));
 
 }
