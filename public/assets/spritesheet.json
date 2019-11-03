@@ -44,6 +44,11 @@
     "width":968,
     "frames":2
   },
+  "readyButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
   "closeButton": {
     "height":204,
     "width":238,

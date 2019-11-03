@@ -18,7 +18,6 @@ closeButton.anims.play('buttonOffClose');
 
 enterButton.anims.play('buttonOffEnter');
 
-
 closeButton.on('pointerover', function () { this.play('buttonOnClose'); });
 
 closeButton.on('pointerout', function () {this.play('buttonOffClose'); });

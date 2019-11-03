@@ -1,22 +1,54 @@
+socket.setSocket('joinGame', function (data) {
 
 
-socket.setSocket('joinGame', function (list) {
 
-  console.log(list);
+  console.log('joinGame');
 
-    console.log('joinGame');
+  var list = data.names;
 
-    users = list;
+  console.log(data);
 
-    names = '';
+  if (!users) users = {}
 
-    list.forEach(name => {
+  list.forEach(function (name) {
 
-      names += name + '\n\r';
-      
-    });
+    if (!users[name]) users[name] = { name: name, ready: false }
 
-   userList.setText(names);
+  });
+
+  names = '';
+
+  userList.forEach((name, index) => {
+
+      userList[index].setText('');
+
+      userList[index].setText(list[index]);
+
+      userList[list[index]] = index;
+
+    
+
+  });
 
 });
 
+socket.setSocket('readyUp', function (data) {
+
+  console.log(data);
+
+  users[data.player] = { name: data.player, ready: data.ready };
+
+  var index = userList[data.player];
+
+  if (data.ready) {
+
+    userList[index].setColor('#00ff00');
+
+
+  } else {
+
+    userList[index].setColor('#fff');
+
+  }
+
+});

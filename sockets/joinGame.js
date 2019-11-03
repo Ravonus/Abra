@@ -22,7 +22,6 @@ Object.keys(rooms).forEach(key => {
 
       delete io.rooms[key].users[client.id];
 
-      console.log("RAN ", key)
       io.to(key).emit('joinGame', io.rooms[key].names);
 
     }
@@ -42,7 +41,6 @@ if (!io.rooms[room]) {
 
 } else if (!io.rooms[room].users[client.id]) {
 
-  console.log("RANz")
 
   io.rooms[room].users[client.id] = { name, host: false };
   io.rooms[room].count = io.rooms[room].count++;
@@ -51,7 +49,7 @@ if (!io.rooms[room]) {
 };
 
 
-io.to(room).emit('joinGame', io.rooms[room].names);
+io.to(room).emit('joinGame', {names:io.rooms[room].names, users:io.rooms[room].users});
 
 // client.broadcast.emit('joinGame', io.rooms[room].names);
 // client.emit('joinGame', io.rooms[room].names);
