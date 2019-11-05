@@ -11,7 +11,7 @@ socket.emits = {};
 
 socket.on('connected', function (data) {
 
-  if(refresh) location.reload();
+  if(refresh) setTimeout(function(){ location.reload(); }, 250);
   
   // console.log(this);
   //console.log(game.scene.keys.GameState)

@@ -117,14 +117,13 @@ async function readFile(mPath, functionName, project) {
 
     }
 
-
     new Promise(async function (resolve, reject) {
-
-
- 
-
-
+      
+      configJSON.abraFunctions = abraFunctions;
+      phaserConfig.abraFunctions = abraFunctions;
       var err = await fs.writeFileSync(`${dirPath}/abraConfig2.json`, JSON.stringify(abraReplace, undefined, 2))
+      console.log('err ', counter)
+      console.log(Object.keys(configJSON.abraFunctions))
 
         if (err) reject(err)
         else resolve(counter++)
@@ -135,14 +134,28 @@ async function readFile(mPath, functionName, project) {
 
             configJSON = abraReplace;
           }
-          let finalConfig = await fs.readFileSync(`${dirPath}/abraConfig2.json`);
+
+          let fineConfig;
+          if(fs.existsSync(`${dirPath}/abraConfig2.json`))
+          finalConfig = await fs.readFileSync(`${dirPath}/abraConfig2.json`);
 
           var err = await fs.writeFileSync(`${dirPath}/abraConfig.json`, finalConfig);
             if (!err) {
 
+              console.log(abraFunctions);
+
+              configJSON.abraFunctions = abraFunctions;
+              phaserConfig.abraFunctions = abraFunctions;
+              
+              counter = 0;
+
               resolve();
               var filePath = `${dirPath}/abraConfig2.json`;
+
+              if(fs.existsSync(filePath))
               fs.unlinkSync(filePath);
+
+             
 
               exports.PhaserConfig = phaserConfig;
               exports.PhaserPath = phaserPath;
@@ -169,6 +182,17 @@ let configJSON = JSON.parse(configString);
 if (!configJSON.abraConfig) {
   configJSON.abraConfig = new Object();
 }
+
+
+var fr = true;
+
+var abraFunctions;
+
+if(fr) {
+  console.log("FU ", configJSON.abraFunctions);
+abraFunctions = configJSON.abraFunctions;
+  fr = false;
+} 
 
 //DO stuff with abra configs
 port = process.env.PORT || configJSON.abraConfig.phaserPort || 1337;
@@ -234,22 +258,26 @@ if(configJSON.projects && configJSON.projects.length !== 0) {
 
 if (configJSON.abraFunctions) {
 
+  console.log("FUNCTIONS ", abraFunctions);
+
+  configJSON.abraFunctions = abraFunctions;
+  phaserConfig.abraFunctions = abraFunctions;
+
   counter = 0
   for (var key in Object.keys(configJSON.abraFunctions)) {
 
     let functionName = Object.keys(configJSON.abraFunctions)[key];
 
-
     let newData;
-
     
     readFile(path.join(dirPath, '../functions/', configJSON.abraFunctions[functionName]), functionName);
-
 
   }
 
 } else {
 
+  configJSON.abraFunctions = abraFunctions;
+  phaserConfig.abraFunctions = abraFunctions;
 
 
   exports.PhaserConfig = phaserConfig;
