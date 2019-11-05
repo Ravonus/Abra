@@ -3,7 +3,7 @@ var panel1_start = game.add.sprite(400, 225, 'bar 1 text').setOrigin(0).setScale
 var closeButton = game.add.sprite(1590, 265, 'closeButton').setInteractive().setOrigin(0);
 var panel1_bar1 = game.add.sprite(680, 550, 'bar 2').setInteractive().setOrigin(0);
 var panel1_bar2 = game.add.sprite(680, 850, 'bar 2').setInteractive().setOrigin(0);
-var enterButton = game.add.sprite(750, 1150, 'enterButton').setInteractive().setOrigin(0).setScale(0.8, 0.7);
+enterButton = game.add.sprite(750, 1150, 'enterButton').setInteractive().setOrigin(0).setScale(0.8, 0.7);
 var panel1_close = game.add.sprite(400, 1425, 'bar 1').setOrigin(0).setScale(0.9).setFlipY(true);
 
 game.anims.create({ key: 'buttonOffClose', frames: game.anims.generateFrameNumbers('closeButton', { start: 1, end: 1 }), frameRate: 60 });

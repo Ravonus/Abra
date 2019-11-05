@@ -25,7 +25,7 @@ var cameras = {};
 var sprites = {};
 var transform = {};
 var groups = {};
-var characterName, menu, lobby, users, room, roomText, userList, userNames, joinGame;
+var characterName, menu, lobby, users, room, roomText, userList, userNames, joinGame, readyButton, startButton;
 
 
 var game = new Phaser.Game(config);

@@ -49,6 +49,11 @@
     "width":968,
     "frames":2
   },
+  "startButton": {
+    "height":426,
+    "width":968,
+    "frames":2
+  },
   "closeButton": {
     "height":204,
     "width":238,

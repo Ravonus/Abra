@@ -1,7 +1,7 @@
 //var socket = io('http://64.37.22.151:1339/');
 //var socket = io('http://localhost:1339/');
-//var socket = io('http://192.168.0.232:1339/');
-var socket = io('http://192.168.1.232:1339/');
+var socket = io('http://192.168.0.232:1339/');
+//var socket = io('http://192.168.1.232:1339/');
 var scene;
 var refresh;
 

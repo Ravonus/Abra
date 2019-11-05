@@ -4,7 +4,6 @@ let room = data.room;
 
 if(io.rooms && io.rooms[room]) {
 
-
 let playerName = io.rooms[room].users[client.id].name,
 ready = data.ready;
 
