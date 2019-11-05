@@ -22,7 +22,17 @@ socket.setSocket('joinGame', function (data) {
 
       userList[index].setText('');
 
+      console.log(data)
+
       userList[index].setText(list[index]);
+
+      var userObj = data.users;
+      var userKeys = Object.keys(data.users);
+
+      console.log(userObj[userKeys[index]])
+
+      if(userObj[userKeys[index]] && userObj[userKeys[index]].ready) userList[index].setColor('#00ff00');
+
 
       userList[list[index]] = index;
 

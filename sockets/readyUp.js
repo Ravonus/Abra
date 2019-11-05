@@ -9,7 +9,7 @@ let playerName = io.rooms[room].users[client.id].name,
 ready = data.ready;
 
 
-
+io.rooms[room].users[client.id].ready = ready;
 
 io.to(room).emit('readyUp', {player:playerName, ready});
 
