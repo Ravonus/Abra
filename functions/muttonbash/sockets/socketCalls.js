@@ -1,7 +1,5 @@
 socket.setSocket('joinGame', function (data) {
 
-  console.log('joinGame');
-
   var list = data.names;
 
   if (!users) users = {}
@@ -22,8 +20,6 @@ socket.setSocket('joinGame', function (data) {
 
     var userObj = data.users;
     var userKeys = Object.keys(data.users);
-
-    console.log(userObj[userKeys[index]])
 
     if (userObj[userKeys[index]] && userObj[userKeys[index]].ready) userList[index].setColor('#00ff00');
 

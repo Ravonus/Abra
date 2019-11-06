@@ -122,17 +122,12 @@ let callbackPhaserConfig = async (callback) => {
     else if (config.ConfigJSON.abraConfig && config.ConfigJSON.abraConfig.version) 
       await phaserUpdate(config.ConfigJSON.abraConfig.version);
 
-    console.log(config.ConfigJSON.abraConfig.clientRestart)
-    
-
       var file = await fs.readFileSync(`${__dirname}/public/js/sockets.js`, 'utf8');
 
       file = config.ConfigJSON.abraConfig.clientRestart ? file.replace(/var clientRestart?[^;]+;/, 'var clientRestart = true;') : file.replace(/var clientRestart?[^;]+;/, 'var clientRestart;')
 
       await fs.writeFileSync(`${__dirname}/public/js/sockets.js`, file)
-
-    
-    
+ 
     pluginLoader();
 
     server.listen(config.Port, () => {
@@ -140,8 +135,6 @@ let callbackPhaserConfig = async (callback) => {
     });
 
     //load plugins here
-
-    console.log(config.ConfigJSON.abraConfig)
 
   } else {
     setTimeout(async function () {

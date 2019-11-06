@@ -22,8 +22,6 @@ async function readFile(mPath, functionName, project) {
 
     var functions = fs.readdirSync(mPath);
 
-    console.log(functions);
-
     await asyncForEach(functions, async funcName => {
       await readFile(`${mPath}/${funcName}`, funcName.slice(0, -3), project);
     });
@@ -122,8 +120,6 @@ async function readFile(mPath, functionName, project) {
       configJSON.abraFunctions = abraFunctions;
       phaserConfig.abraFunctions = abraFunctions;
       var err = await fs.writeFileSync(`${dirPath}/abraConfig2.json`, JSON.stringify(abraReplace, undefined, 2))
-      console.log('err ', counter)
-      console.log(Object.keys(configJSON.abraFunctions))
 
         if (err) reject(err)
         else resolve(counter++)
@@ -141,8 +137,6 @@ async function readFile(mPath, functionName, project) {
 
           var err = await fs.writeFileSync(`${dirPath}/abraConfig.json`, finalConfig);
             if (!err) {
-
-              console.log(abraFunctions);
 
               configJSON.abraFunctions = abraFunctions;
               phaserConfig.abraFunctions = abraFunctions;
@@ -189,7 +183,6 @@ var fr = true;
 var abraFunctions;
 
 if(fr) {
-  console.log("FU ", configJSON.abraFunctions);
 abraFunctions = configJSON.abraFunctions;
 global.abraConfig = configJSON.abraConfig;
   fr = false;
@@ -258,8 +251,6 @@ if(configJSON.projects && configJSON.projects.length !== 0) {
 }
 
 if (configJSON.abraFunctions) {
-
-  console.log("FUNCTIONS ", abraFunctions);
 
   configJSON.abraFunctions = abraFunctions;
   phaserConfig.abraFunctions = abraFunctions;

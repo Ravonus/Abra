@@ -9,8 +9,6 @@ let phaserUpdate = async function (version) {
 
     var dir = path.join(__dirname, '../');
 
-    console.log('RUNNING UPDATE');
-
     let child = exec(` npm i phaser ` + version,
       async function (error, stdout, stderr) {
 

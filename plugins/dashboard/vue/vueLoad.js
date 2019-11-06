@@ -46,8 +46,6 @@ let vueLoad = async () => {
       functions += `${name}:${vueComponents[component].methods[name]},` + '\n';
     });
 
-    console.log(functions)
-
     app = await app.replace(/data:[ ]?{([^}]*)}/g, `data:{${JSON.stringify(vueComponents[component].data).replace('{', '')}`);
     app = await app.replace(/methods:[ ]?{([^}]*)}/, `methods:{${functions}}`);
 

@@ -303,7 +303,6 @@ function listDir(callback) {
                         
                         x++;
                         } else {
-                          console.log(mainAttribute+attribute);
                           mainAttributeBrack = mainAttribute.slice(1,-1);
                           fileAddArray[objectName][mainAttribute][attribute.slice(1,-1)] = result[mainAttribute+attribute];
                         }

@@ -5,9 +5,6 @@ const fs = require('fs'),
 
 const abraConfig = require(path.join('../', '/config/', 'abraConfig.json')).abraConfig;
 
-console.log(abraConfig)
-
-
 const pluginPath = abraConfig.pluginPath ? path.join(abraConfig.pluginPath) : path.join('./', 'plugins')
 
 let pluginLoader = async (directory, file) => {
@@ -15,8 +12,6 @@ let pluginLoader = async (directory, file) => {
   let grabPlugins = () => {
 
     let plugins = fs.readdirSync(pluginPath);
-
-    console.log(plugins)
 
     plugins.forEach(file => {
 

@@ -41,8 +41,6 @@ enterButton.on('pointerup', function () {
   var name = document.getElementById("name2Field").value;
   room = document.getElementById("roomField").value;
 
-  console.log("NAME " + name);
-
   socket.emits.joinGame({room:room, name:name});
 
   roomText = game.add.text(50, 100, room, { font: "74px Arial Black", fill: "#fff" });

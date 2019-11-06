@@ -6,7 +6,6 @@ var main = new Vue({
 
   },
   methods:{testMethod:function(txt) {
-    console.log(txt);
   },
 navClick:function(e) {
       sidenav.navClick(e);
