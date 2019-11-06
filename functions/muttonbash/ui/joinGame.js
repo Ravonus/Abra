@@ -1,11 +1,13 @@
 joinGame = game.add.container(0, 0);
 
-var panel1_start = game.add.sprite(400, 225, 'bar 1 text').setOrigin(0).setScale(0.9)
-var closeButton = game.add.sprite(1590, 265, 'closeButton').setInteractive().setOrigin(0);
-var panel1_bar1 = game.add.sprite(680, 550, 'bar 2').setInteractive().setOrigin(0);
-var panel1_bar2 = game.add.sprite(680, 850, 'bar 2').setInteractive().setOrigin(0);
-enterButton = game.add.sprite(750, 1150, 'enterButton').setInteractive().setOrigin(0).setScale(0.8, 0.7);
-var panel1_close = game.add.sprite(400, 1425, 'bar 1').setOrigin(0).setScale(0.9).setFlipY(true);
+var panel1_start = game.add.sprite(game.scale.width / 2 , 85 , 'bar 1 text').setScale(scaleRatio);
+var closeButton = game.add.sprite(game.scale.width / 2 + 320, 85, 'closeButton').setInteractive().setScale(scaleRatio);
+var panel1_bar1 = game.add.sprite(game.scale.width / 2, game.scale.height - 700, 'bar 2').setInteractive().setScale(scaleRatio);
+var panel1_bar2 = game.add.sprite(game.scale.width / 2, game.scale.height - 500, 'bar 2').setInteractive().setScale(scaleRatio);
+enterButton = game.add.sprite(game.scale.width / 2, 1150, 'enterButton').setInteractive().setScale(scaleRatio / 1.1);
+var panel1_close = game.add.sprite(game.scale.width / 2, game.scale.height - 75, 'bar 1').setScale(scaleRatio).setFlipY(true);
+
+enterButton.y = game.scale.height - (enterButton.displayHeight ) + 220;
 
 game.anims.create({ key: 'buttonOffClose', frames: game.anims.generateFrameNumbers('closeButton', { start: 1, end: 1 }), frameRate: 60 });
 
@@ -32,9 +34,8 @@ closeButton.on('pointerup', function (pointer) { menu.visible = true;
   joinGame.visible = false;
 });
 
-var roomInput = game.add.dom(1134, 645).createFromCache('room');
-var nameInput = game.add.dom(1134, 945).createFromCache('nameRoom');
-
+var roomInput = game.add.dom(game.scale.width / 2, game.scale.height - 700).createFromCache('room').setScale(scaleRatio);
+var nameInput = game.add.dom(game.scale.width / 2, game.scale.height - 500).createFromCache('nameRoom').setScale(scaleRatio);
 
 enterButton.on('pointerup', function () {
 
@@ -43,7 +44,7 @@ enterButton.on('pointerup', function () {
 
   socket.emits.joinGame({room:room, name:name});
 
-  roomText = game.add.text(50, 100, room, { font: "74px Arial Black", fill: "#fff" });
+  roomText = game.add.text(125, game.scale.height - 850, room, { font: "74px Arial Black", fill: "#fff" }).setScale(scaleRatio);
 
   lobby.visible = true;
   joinGame.visible = false;

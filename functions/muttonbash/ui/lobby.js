@@ -1,18 +1,22 @@
 lobby = game.add.container(0, 0);
-var panel1_start = game.add.sprite(400, 225, 'bar 1 text').setOrigin(0).setScale(0.9)
-var closeButton = game.add.sprite(1590, 265, 'closeButton').setInteractive().setOrigin(0);
 
-readyButton = game.add.sprite(750, 1150, 'readyButton').setInteractive().setOrigin(0).setScale(0.8, 0.7);
-startButton = game.add.sprite(750, 1150, 'startButton').setInteractive().setOrigin(0).setScale(0.8, 0.7);
-var panel1_close = game.add.sprite(400, 1425, 'bar 1').setOrigin(0).setScale(0.9).setFlipY(true);
+var panel1_start = game.add.sprite(game.scale.width / 2 , 85 , 'bar 1 text').setScale(scaleRatio);
+var closeButton = game.add.sprite(game.scale.width / 2 + 320, 85, 'closeButton').setInteractive().setScale(scaleRatio);
 
-roomText = game.add.text(50, 100, room, { font: "74px Arial Black", fill: "#fff" });
+readyButton = game.add.sprite(game.scale.width / 2, 1150, 'readyButton').setInteractive().setScale(scaleRatio / 1.1);
+startButton = game.add.sprite(game.scale.width / 2, 1150, 'startButton').setInteractive().setScale(scaleRatio / 1.1);
+var panel1_close = game.add.sprite(game.scale.width / 2, game.scale.height - 75, 'bar 1').setScale(scaleRatio).setFlipY(true);
+
+startButton.y = game.scale.height - (readyButton.displayHeight ) + 220;
+readyButton.y = game.scale.height - (readyButton.displayHeight ) + 220;
+
+roomText = game.add.text(125, game.scale.height - 850, room, { font: "74px Arial Black", fill: "#fff" }).setScale(scaleRatio);
 
 if(!userList) userList = [];
-userList[0] = game.add.text(800, 550, userNames, { font: "74px Arial Black", fill: "#fff" });
-userList[1] = game.add.text(800, 650, userNames, { font: "74px Arial Black", fill: "#fff" });
-userList[2] = game.add.text(800, 750, userNames, { font: "74px Arial Black", fill: "#fff" });
-userList[3] = game.add.text(800, 850, userNames, { font: "74px Arial Black", fill: "#fff" });
+userList[0] = game.add.text(game.scale.width / 2, game.scale.height - 750, userNames, { font: "74px Arial Black", fill: "#fff" }).setScale(scaleRatio);
+userList[1] = game.add.text(game.scale.width / 2, game.scale.height - 650, userNames, { font: "74px Arial Black", fill: "#fff" }).setScale(scaleRatio);
+userList[2] = game.add.text(game.scale.width / 2, game.scale.height - 550, userNames, { font: "74px Arial Black", fill: "#fff" }).setScale(scaleRatio);
+userList[3] = game.add.text(game.scale.width / 2, game.scale.height - 450, userNames, { font: "74px Arial Black", fill: "#fff" }).setScale(scaleRatio);
 
 game.anims.create({ key: 'buttonOffClose', frames: game.anims.generateFrameNumbers('closeButton', { start: 1, end: 1 }), frameRate: 60 });
 

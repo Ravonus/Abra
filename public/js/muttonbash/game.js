@@ -1,8 +1,6 @@
 var config = {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   parent: 'Abra Auto Loader Alpha 0.1',
-  width: 1080,
-  height: 1920,
   autoResize: true,
   dom: {
     createContainer: true
@@ -13,9 +11,8 @@ var config = {
   },
   scale: {
     mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 2160,
-    height: 1920,
+    width: window.innerWidth * window.devicePixelRatio,
+    height:  window.innerHeight * window.devicePixelRatio,
     dom: {
       createContainer: true
     }
@@ -24,6 +21,8 @@ var config = {
   gameURL: "https://technomancyit.com"
 };
 
+var scaleRatio = window.devicePixelRatio / 3;
+console.log("SCALE ", scaleRatio)
 var cameras = {};
 var sprites = {};
 var transform = {};

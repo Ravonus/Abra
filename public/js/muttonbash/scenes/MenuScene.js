@@ -16,7 +16,6 @@ var MenuScene = {
     Function.apply(null, ['game', Phaser.phaserConfig.lobby])(this);
     Function.apply(null, ['game', Phaser.phaserConfig.joinGame])(this);
     Function.apply(null, ['game', Phaser.phaserConfig.socketCalls])(game);
-
     
   }
 
