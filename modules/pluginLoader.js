@@ -41,7 +41,7 @@ let pluginLoader = async (directory, file) => {
       if(moduleConfig && !moduleConfig.noRun && moduleConfig.enabled) {
 
       global.plugins[file] = moduleConfig.filename ? require(`../${directory}/${moduleConfig.filename}`) : require(`../${directory}app`);
-      global.plugins[file]();
+     await  global.plugins[file]();
       }
 
       else if(moduleConfig && moduleConfig.enabled)

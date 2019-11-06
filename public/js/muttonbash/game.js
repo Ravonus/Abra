@@ -8,6 +8,9 @@ var config = {
     createContainer: true
   },
   fps: 60,
+  physics: {
+    default: 'arcade'
+  },
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -37,5 +40,3 @@ game.scene.add('MenuScene', MenuScene);
 game.scene.add('PreloadScene', PreloadScene);
 game.scene.add('SetupScene', SetupScene);
 game.scene.start('SetupScene');
-
-

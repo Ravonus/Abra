@@ -191,6 +191,7 @@ var abraFunctions;
 if(fr) {
   console.log("FU ", configJSON.abraFunctions);
 abraFunctions = configJSON.abraFunctions;
+global.abraConfig = configJSON.abraConfig;
   fr = false;
 } 
 

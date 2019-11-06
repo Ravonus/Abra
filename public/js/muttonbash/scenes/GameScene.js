@@ -14,30 +14,27 @@ var socketBallsRotate;
 var GameScene = {
 
   preload: function () {
-
    
 
   },
 
   create: function () {
 
-    var graphics = this.add.graphics();
+    var panel1 = this.add.sprite(420, 50, 'playPanel').setOrigin(0).setScale(1);
 
-    graphics.lineStyle(20, 0x2ECC40);
+    var players = this.add.group({ immovable: true });
 
-    graphics.strokeRect(50, 50, 100, 40);
+    var y = 1252;
+    for (var i = 0; i < Object.keys(users).length - 1; i++)
+    {
 
-    graphics.strokeCircle(600, 400, 64);
+        var b = players.create(1088, y, 'playerPanel');
+        y = y - 378;
+        this.physics.add.existing(b);
 
-    graphics.beginPath();
+        b.body.setImmovable();
+    }
 
-    graphics.moveTo(400, 100);
-    graphics.lineTo(200, 278);
-    graphics.lineTo(340, 430);
-    graphics.lineTo(650, 80);
-
-    graphics.closePath();
-    graphics.strokePath();
 
   },
 

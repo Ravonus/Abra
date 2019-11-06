@@ -7,6 +7,7 @@
     "expr-eval": "^1.2.1",
     "express": "^4.16.2",
     "hbs": "^4.0.6",
+    "ngrok": "^3.2.5",
     "nodemon": "^1.14.11",
     "phaser": "^3.20.1",
     "phaser3-project-template": "^1.0.9",
