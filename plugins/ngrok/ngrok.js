@@ -3,12 +3,11 @@ globalAbraConfig = require('../../config/abraConfig.json'),
 colors = require('colors');
   fs = require('fs');
 
-
 const conf = require('./config.json');
 
 let ngrokFunc = async () => {
 
-  const url = await ngrok.connect({
+  await ngrok.connect({
     proto: 'http',
     addr: abraConfig.phaserPort, // port or network address, defaults to 80
     authtoken: conf.token, // your authtoken from ngrok.com

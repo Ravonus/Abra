@@ -13,6 +13,11 @@ let phaserConfig = new Object();
 configVariables.variables = new Object();
 
 
+var contents = fs.readFileSync('./public/js/sockets.js', 'utf8');
+
+console.log(contents);
+
+
 
 
 async function readFile(mPath, functionName, project) {
@@ -172,6 +177,11 @@ async function readFile(mPath, functionName, project) {
 //Keep in mind if its a public value - Abra still has to push it to the DIV so phaser has access. Abra will not push anything within abraConfig to phaser. This is default abra configs.
 let configString = fs.readFileSync(`${dirPath}/abraConfig.json`);
 let configJSON = JSON.parse(configString);
+
+if (contents) {
+  contents = contents.replace(/^((?!\/\/var).)* socket = io\(\'[^;]+/gm, `var socket = io('${configJSON.abraConfig.host}:${configJSON.abraConfig.phaserPort}')`);
+  fs.writeFileSync(`./public/js/sockets.js`, contents, 'utf8');
+}
 
 if (!configJSON.abraConfig) {
   configJSON.abraConfig = new Object();

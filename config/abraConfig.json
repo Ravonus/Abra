@@ -70,7 +70,8 @@
     "phaserPath": "assets/",
     "pluginPath": "plugins/",
     "version": "current",
-    "clientRestart": true
+    "clientRestart": true,
+    "host": "http://localhost"
   },
   "abraFunctions": {
     "abraLoad": "abraLoadAsset.js",
