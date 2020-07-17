@@ -221,4 +221,4 @@ Turn this!!
 
   Into this
 
-  <img src="https://cdn.discordapp.com/attachments/244245946873937922/405759970072723458/100grid.PN
+  <img src="https://cdn.discordapp.com/attachments/244245946873937922/405759970072723458/100grid.PNG">
