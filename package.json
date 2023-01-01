@@ -9,7 +9,7 @@
     "hbs": "^4.0.6",
     "ngrok": "^3.2.5",
     "nodemon": "^1.14.11",
-    "phaser": "^3.20.1",
+    "phaser": "^3.55.2",
     "phaser3-project-template": "^1.0.9",
     "prompt": "^1.0.0",
     "socket.io": "^2.1.1",
